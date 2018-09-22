@@ -1,0 +1,16 @@
+Chance:
+  zombie:
+    type: "ZOMBIE"
+    chance: 5
+  skeleton:
+    type: "SKELETON"
+    chance: 5
+  blaze:
+    type: "BLAZE"
+    chance: 5
+  creeper:
+    type: "CREEPER"
+    chance: 8
+  enderman:
+    type: "ENDERMAN"
+    chance: 8
