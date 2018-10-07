@@ -51,6 +51,7 @@ public class InventoryListener implements Listener {
                 player.sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", reward.getName()).replace("%amount%", String.valueOf(reward.getPrice())));
 
                 item = true;
+                break;
             }
         }
 

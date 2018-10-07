@@ -28,14 +28,6 @@ public class YamlStorage implements Storable {
     }
 
     @Override
-    public void saveProfile(Profile profile) {
-        String prefix = "Profile." + profile.getPlayer().getUniqueId().toString();
-
-        config.set(prefix + ".mobcoins", profile.getMobCoins());
-        file.save();
-    }
-
-    @Override
     public void loadProfile(Player player) {
         String prefix = "Profile." + player.getUniqueId().toString();
 
@@ -49,5 +41,18 @@ public class YamlStorage implements Storable {
         int mobCoins = config.getInt(prefix + ".mobcoins");
         profile.setMobCoins(mobCoins);
         instance.getProfileManager().load(profile);
+    }
+
+    @Override
+    public void saveProfile(Player player) {
+        Profile profile = instance.getProfileManager().getProfile(player);
+
+        if(profile == null) return;
+
+        String prefix = "Profile." + player.getUniqueId().toString();
+
+        config.set(prefix + ".mobcoins", profile.getMobCoins());
+        file.save();
+        instance.getProfileManager().unload(profile);
     }
 }

@@ -15,6 +15,7 @@ import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
+import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +33,7 @@ public class MobCoins extends JavaPlugin {
     private ProfileManager profileManager;
     private RewardManager rewardManager;
     private ChanceManager chanceManager;
+    private CommandManager commandManager;
 
     private Set<Reward> rewards = new HashSet<>();
     private long normalTime;
@@ -58,7 +60,7 @@ public class MobCoins extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        profileManager.getProfiles().forEach(storage::saveProfile);
+        getServer().getOnlinePlayers().forEach(storage::saveProfile);
     }
 
     private void loadConfiguration() {
@@ -75,12 +77,12 @@ public class MobCoins extends JavaPlugin {
         profileManager = new ProfileManager();
         rewardManager = new RewardManager(this);
         chanceManager = new ChanceManager(this);
+        commandManager = new CommandManager(this);
     }
 
     private void registerCommands() {
         getCommand("mobcoins").setExecutor(new MobCoinsCommand(this));
     }
-
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
@@ -321,5 +323,9 @@ public class MobCoins extends JavaPlugin {
 
     public void setSpecialTimer(BukkitRunnable specialTimer) {
         this.specialTimer = specialTimer;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 }

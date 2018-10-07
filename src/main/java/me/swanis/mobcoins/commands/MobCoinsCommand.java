@@ -80,7 +80,7 @@ public class MobCoinsCommand implements CommandExecutor {
             return true;
         }
 
-        switch(args[0]) {
+        switch(args[0].toLowerCase()) {
             case "give": {
                 if(!commandSender.hasPermission("mobcoins.give")) {
                     commandSender.sendMessage(Configuration.NO_PERMISSION_MESSAGE);
@@ -114,7 +114,13 @@ public class MobCoinsCommand implements CommandExecutor {
 
                 profile.setMobCoins(profile.getMobCoins() + amount);
                 commandSender.sendMessage(Configuration.GAVE_MOBCOINS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%player%", target.getName()));
-                target.sendMessage(Configuration.RECEIVED_MOBCOINS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%sender%", commandSender.getName()));
+
+                String string = String.join(" ", args);
+
+                if(!string.endsWith("-s")) {
+                    target.sendMessage(Configuration.RECEIVED_MOBCOINS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%sender%", commandSender.getName()));
+                }
+
                 break;
             }
 
@@ -413,6 +419,11 @@ public class MobCoinsCommand implements CommandExecutor {
             }
 
             default: {
+                if(commandSender.hasPermission("mobcoins.admin")) {
+                    Configuration.MOBCOINS_HELP_ADMIN_LORE.forEach(commandSender::sendMessage);
+                    return true;
+                }
+
                 Configuration.MOBCOINS_HELP_LORE.forEach(commandSender::sendMessage);
                 break;
             }

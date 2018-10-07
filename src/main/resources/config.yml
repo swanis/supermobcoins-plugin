@@ -55,6 +55,10 @@ gui:
       material: "STAINED_GLASS_PANE"
       name: " "
       durability: 15
+gui_open:
+  sound:
+    enabled: true
+    type: "ENDERDRAGON_HIT"
 mobcoin_item:
   material: "DOUBLE_PLANT"
   name: "&b&lMob Coin &7(Rightclick to redeem)"
@@ -63,10 +67,7 @@ mobcoin_item:
     - "&3to purchase stuff"
 mobcoin_normal_shop_update_hours: 24
 mobcoin_special_shop_update_hours: 72
-gui_open:
-  sound:
-    enabled: true
-    type: "ENDERDRAGON_HIT"
+mobcoins_only_from_naturally_spawned_mods: false
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"
@@ -94,10 +95,22 @@ SET_MOBCOINS_MESSAGE: "&6%player%&e's mobcoins balance has been set to &6%amount
 YOUR_MOBCOINS_SET_MESSAGE: "&eYour mobcoins balance has been set to &6%amount% &eby &6%player%"
 INVENTORY_FULL_MESSAGE: "&cYour inventory is full"
 INVENTORY_GOT_FILLED_MESSAGE: "&eYour inventory got filled so you could only withdraw &6%amount% &emobcoins"
-
 MOBCOINS_HELP_LORE:
   - '&8&m---------------------------'
   - '&3&l(!) Mobcoins Commands:'
   - '&b/mobcoins withdraw <amount>'
   - '&b/mobcoins viewcoins <player>'
+  - '&8&m---------------------------'
+MOBCOINS_HELP_ADMIN_LORE:
+  - '&8&m---------------------------'
+  - '&3&l(!) Mobcoins Commands:'
+  - '&b/mobcoins withdraw <amount>'
+  - '&b/mobcoins viewcoins <player>'
+  - ''
+  - '&3&l(!) Admin Commands:'
+  - '&b/mobcoins give <player> <amount> [-s]'
+  - '&b/mobcoins take <player> <amount>'
+  - '&b/mobcoins set <player> <amount>'
+  - '&b/mobcoins refresh <category>'
+  - '&b/mobcoins reload'
   - '&8&m---------------------------'

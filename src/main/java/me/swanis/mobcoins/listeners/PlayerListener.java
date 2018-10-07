@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
@@ -29,22 +30,18 @@ public class PlayerListener implements Listener {
         instance.getStorage().loadProfile(player);
     }
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
-
-        instance.getStorage().saveProfile(profile);
-        instance.getProfileManager().unload(profile);
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
-        Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 
-        instance.getStorage().saveProfile(profile);
-        instance.getProfileManager().unload(profile);
+        instance.getStorage().saveProfile(player);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        instance.getStorage().saveProfile(player);
     }
 
     @EventHandler

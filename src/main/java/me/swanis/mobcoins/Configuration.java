@@ -47,6 +47,7 @@ public class Configuration {
     public static int MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS;
     public static boolean GUI_OPEN_SOUND_ENABLED;
     public static Sound GUI_OPEN_SOUND_TYPE;
+    public static boolean MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -75,6 +76,7 @@ public class Configuration {
     public static String INVENTORY_FULL_MESSAGE;
     public static String INVENTORY_GOT_FILLED_MESSAGE;
     public static List<String> MOBCOINS_HELP_LORE = new ArrayList<>();
+    public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
 
     public Configuration(MobCoins instance) {
         GUI_TITLE = StringUtil.color(instance.getConfig().getString("gui.title"));
@@ -111,14 +113,15 @@ public class Configuration {
         GUI_FILLER_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.filler.item.material"));
         GUI_FILLER_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.filler.item.name"));
         GUI_FILLER_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.filler.item.durability");
+        GUI_OPEN_SOUND_ENABLED = instance.getConfig().getBoolean("gui_open.sound.enabled");
+        GUI_OPEN_SOUND_TYPE = Sounds.valueOf(instance.getConfig().getString("gui_open.sound.type")).bukkitSound();
         MOBCOIN_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("mobcoin_item.material"));
         MOBCOIN_ITEM_NAME = StringUtil.color(instance.getConfig().getString("mobcoin_item.name"));
         Configuration.MOBCOIN_ITEM_LORE.clear();
         instance.getConfig().getStringList("mobcoin_item.lore").forEach(string -> Configuration.MOBCOIN_ITEM_LORE.add(StringUtil.color(string)));
         MOBCOIN_NORMAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_normal_shop_update_hours");
         MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_special_shop_update_hours");
-        GUI_OPEN_SOUND_ENABLED = instance.getConfig().getBoolean("gui_open.sound.enabled");
-        GUI_OPEN_SOUND_TYPE = Sounds.valueOf(instance.getConfig().getString("gui_open.sound.type")).bukkitSound();
+        MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS = instance.getConfig().getBoolean("mobcoins_only_from_naturally_spawned_mods");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
@@ -148,5 +151,7 @@ public class Configuration {
         INVENTORY_GOT_FILLED_MESSAGE = StringUtil.color(instance.getConfig().getString("INVENTORY_GOT_FILLED_MESSAGE"));
         MOBCOINS_HELP_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_LORE").forEach(string -> Configuration.MOBCOINS_HELP_LORE.add(StringUtil.color(string)));
+        MOBCOINS_HELP_ADMIN_LORE.clear();
+        instance.getConfig().getStringList("MOBCOINS_HELP_ADMIN_LORE").forEach(string -> Configuration.MOBCOINS_HELP_ADMIN_LORE.add(StringUtil.color(string)));
     }
 }
