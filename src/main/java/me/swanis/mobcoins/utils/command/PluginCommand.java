@@ -1,6 +1,7 @@
 package me.swanis.mobcoins.utils.command;
 
 
+import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public abstract class PluginCommand implements CommandExecutor {
                     PluginCommand pluginCommand = instance.getCommandManager().getCommand(command + "." + subCommand);
                     if(pluginCommand != null) {
                         if(!pluginCommand.permission.equals("") && !commandSender.hasPermission(pluginCommand.permission)) {
-                            commandSender.sendMessage("No permission");
+                            commandSender.sendMessage(Configuration.NO_PERMISSION_MESSAGE);
                             return true;
                         }
 
@@ -39,7 +40,7 @@ public abstract class PluginCommand implements CommandExecutor {
         }
 
         if(!permission.equals("") && !commandSender.hasPermission(permission)) {
-            commandSender.sendMessage("No permission");
+            commandSender.sendMessage(Configuration.NO_PERMISSION_MESSAGE);
             return true;
         }
 

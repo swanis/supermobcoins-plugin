@@ -3,7 +3,6 @@ package me.swanis.mobcoins.utils.command;
 import me.swanis.mobcoins.MobCoins;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +18,6 @@ public class CommandManager {
 
     public void register(PluginCommand pluginCommand) {
         Class<?> clazz = pluginCommand.getClass();
-
         Command command = null;
 
         for(Method method : clazz.getMethods()) {
@@ -35,7 +33,7 @@ public class CommandManager {
         pluginCommand.setSubCommand(command.subCommand());
         pluginCommand.setSubCommands(command.subCommands());
 
-        if(command.subCommand()) {
+        if(!command.subCommand()) {
             commands.put(command.command().toLowerCase(), pluginCommand);
             instance.getCommand(command.command()).setExecutor(pluginCommand);
         } else {

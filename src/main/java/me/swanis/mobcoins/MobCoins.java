@@ -1,7 +1,8 @@
 package me.swanis.mobcoins;
 
 import me.swanis.mobcoins.chance.ChanceManager;
-import me.swanis.mobcoins.commands.MobCoinsCommand;
+import me.swanis.mobcoins.command.MobCoinsCommand;
+import me.swanis.mobcoins.command.subcommands.*;
 import me.swanis.mobcoins.listeners.EntityListener;
 import me.swanis.mobcoins.listeners.InventoryListener;
 import me.swanis.mobcoins.listeners.MobCoinsListener;
@@ -81,7 +82,18 @@ public class MobCoins extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("mobcoins").setExecutor(new MobCoinsCommand(this));
+        commandManager.register(new MobCoinsCommand(this));
+
+        //Subcommands
+        commandManager.register(new MobCoinsWithdrawCommand(this));
+        commandManager.register(new MobCoinsViewCoinsCommand(this));
+        commandManager.register(new MobCoinsGiveCommand(this));
+        commandManager.register(new MobCoinsTakeCommand(this));
+        commandManager.register(new MobCoinsSetCommand(this));
+        commandManager.register(new MobCoinsGiveItemCommand(this));
+        commandManager.register(new MobCoinsRefreshCommand(this));
+        commandManager.register(new MobCoinsAuthorCommand(this));
+        commandManager.register(new MobCoinsReloadCommand(this));
     }
 
     private void registerListeners() {

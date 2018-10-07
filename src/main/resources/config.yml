@@ -111,6 +111,7 @@ MOBCOINS_HELP_ADMIN_LORE:
   - '&b/mobcoins give <player> <amount> [-s]'
   - '&b/mobcoins take <player> <amount>'
   - '&b/mobcoins set <player> <amount>'
+  - '&b/mobcoins giveitem <player> <amount>'
   - '&b/mobcoins refresh <category>'
   - '&b/mobcoins reload'
   - '&8&m---------------------------'

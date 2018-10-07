@@ -5,5 +5,5 @@ softdepend: [PlaceholderAPI, MVdWPlaceholderAPI, HolographicDisplays]
 
 commands:
   mobcoins:
-    aliases: [token, transfer, coins, mcoins, tokens]
+    aliases: [transfer]
   test:
