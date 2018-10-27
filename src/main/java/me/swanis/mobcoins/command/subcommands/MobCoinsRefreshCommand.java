@@ -36,34 +36,12 @@ public class MobCoinsRefreshCommand extends PluginCommand {
         }
 
         if(args[1].equalsIgnoreCase("normal")) {
-            instance.getNormalTimer().cancel();
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    instance.setNormalTimer(this);
-
-                    instance.updateNormalRewards();
-                    instance.setNormalTime(System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
-                    Bukkit.broadcastMessage(Configuration.MOBCOIN_NORMAL_SHOP_UPDATED_MESSAGE);
-                }
-            }.runTaskTimer(instance, 0L,  (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 20);
-
+            instance.setNormalTime(System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
             return;
         }
 
         if(args[1].equalsIgnoreCase("special")) {
-            instance.getSpecialTimer().cancel();
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    instance.setSpecialTimer(this);
-
-                    instance.updateSpecialRewards();
-                    instance.setSpecialTime(System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
-                    Bukkit.broadcastMessage(Configuration.MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE);
-                }
-            }.runTaskTimer(instance, 0L, (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 20);
-
+            instance.setSpecialTime(System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
             return;
         }
     }

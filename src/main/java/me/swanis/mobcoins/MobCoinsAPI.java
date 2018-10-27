@@ -40,18 +40,4 @@ public class MobCoinsAPI {
     public static Storable getStorage() {
         return instance.getStorage();
     }
-
-    /*
-    Refresh the normal rewards in the shop
-    */
-    public static void updateNormalRewards() {
-        instance.updateNormalRewards();
-    }
-
-    /*
-    Refresh the special rewards in the shop
-    */
-    public static void updateSpecialRewards() {
-        instance.updateNormalRewards();
-    }
 }

@@ -11,7 +11,6 @@ import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
 import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
 import me.swanis.mobcoins.profile.ProfileManager;
-import me.swanis.mobcoins.reward.Reward;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
@@ -23,10 +22,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class MobCoins extends JavaPlugin {
+
+    /*
+    The code in this plugin was written by Swanis (https://www.mc-market.org/members/71127/) and therefore he owns all rights to it and the plugin.
+    */
 
     private Storable storage;
     private Inventory inventory;
@@ -36,11 +36,9 @@ public class MobCoins extends JavaPlugin {
     private ChanceManager chanceManager;
     private CommandManager commandManager;
 
-    private Set<Reward> rewards = new HashSet<>();
     private long normalTime;
     private long specialTime;
-    private BukkitRunnable normalTimer;
-    private BukkitRunnable specialTimer;
+    private boolean loaded;
 
     @Override
     public void onEnable() {
@@ -54,7 +52,8 @@ public class MobCoins extends JavaPlugin {
 
         getServer().getOnlinePlayers().forEach(storage::loadProfile);
         loadInventory();
-        runTaskTimers();
+        rewardManager.loadLastRewards();
+        runTimer();
 
         new MobCoinsAPI(this);
     }
@@ -62,6 +61,7 @@ public class MobCoins extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getOnlinePlayers().forEach(storage::saveProfile);
+        rewardManager.saveLastRewards();
     }
 
     private void loadConfiguration() {
@@ -104,48 +104,48 @@ public class MobCoins extends JavaPlugin {
     }
 
     private void registerPlaceholders() {
-        if(Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+        if(getServer().getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
             new MVdWPlaceholderAPIHook(this).hook();
         }
 
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderAPIHook(this).hook();
         }
 
-        if(Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if(getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
             new HolographicDisplaysHook(this).hook();
         }
     }
 
-    private void runTaskTimers() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                normalTimer = this;
-
-                updateNormalRewards();
-                normalTime = System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
-                Bukkit.broadcastMessage(Configuration.MOBCOIN_NORMAL_SHOP_UPDATED_MESSAGE);
-            }
-        }.runTaskTimer(this, 0L,  (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 20);
+    private void runTimer() {
+        if(!loaded) {
+            normalTime = System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
+            specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
+        }
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                specialTimer = this;
+                if(normalTime < System.currentTimeMillis()) {
+                    rewardManager.refreshNormalRewards();
+                    normalTime = System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
+                    getServer().broadcastMessage(Configuration.MOBCOIN_NORMAL_SHOP_UPDATED_MESSAGE);
+                }
 
-                updateSpecialRewards();
-                specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
-                Bukkit.broadcastMessage(Configuration.MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE);
+                if(specialTime < System.currentTimeMillis()) {
+                    rewardManager.refreshSpecialRewards();
+                    specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
+                    getServer().broadcastMessage(Configuration.MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE);
+                }
             }
-        }.runTaskTimer(this, 0L, (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 20);
+        }.runTaskTimer(this, 0L, 20L);
     }
 
     public void loadInventory() {
         inventory = Bukkit.createInventory(null, (Configuration.GUI_ROWS * 9), Configuration.GUI_TITLE);
 
-        updateNormalRewards();
-        updateSpecialRewards();
+        rewardManager.refreshNormalRewards();
+        rewardManager.refreshSpecialRewards();
 
         ItemStack mobCoinsItem = new ItemBuilder(Configuration.GUI_MOBCOINS_ITEM_MATERIAL)
                 .setName(Configuration.GUI_MOBCOINS_ITEM_NAME)
@@ -181,110 +181,6 @@ public class MobCoins extends JavaPlugin {
         }
     }
 
-    public void updateNormalRewards() {
-        rewards.stream().filter(reward -> !reward.isSpecial()).collect(Collectors.toSet()).forEach(rewards::remove);
-        Random random = new Random();
-
-        inventory.setItem(Configuration.GUI_REWARDSLOT_1, null);
-        inventory.setItem(Configuration.GUI_REWARDSLOT_2, null);
-        inventory.setItem(Configuration.GUI_REWARDSLOT_3, null);
-        inventory.setItem(Configuration.GUI_REWARDSLOT_4, null);
-        inventory.setItem(Configuration.GUI_REWARDSLOT_5, null);
-        inventory.setItem(Configuration.GUI_REWARDSLOT_6, null);
-
-        for(int i = 0; i < 6; i++) {
-            List<Reward> rewardList = rewardManager.getRewards().stream().filter(reward -> !reward.isSpecial()).collect(Collectors.toList());
-            int r = random.nextInt(rewardList.size());
-            Reward reward;
-            reward = rewardList.get(r);
-
-            int slot = 0;
-
-            if(reward.getSlot() == 1) slot = Configuration.GUI_REWARDSLOT_1;
-            if(reward.getSlot() == 2) slot = Configuration.GUI_REWARDSLOT_2;
-            if(reward.getSlot() == 3) slot = Configuration.GUI_REWARDSLOT_3;
-            if(reward.getSlot() == 4) slot = Configuration.GUI_REWARDSLOT_4;
-            if(reward.getSlot() == 5) slot = Configuration.GUI_REWARDSLOT_5;
-            if(reward.getSlot() == 6) slot = Configuration.GUI_REWARDSLOT_6;
-
-            while(inventory.getItem(slot) != null) {
-                int rand = random.nextInt(rewardList.size());
-                reward = rewardList.get(rand);
-                if(reward.getSlot() == 1) slot = Configuration.GUI_REWARDSLOT_1;
-                if(reward.getSlot() == 2) slot = Configuration.GUI_REWARDSLOT_2;
-                if(reward.getSlot() == 3) slot = Configuration.GUI_REWARDSLOT_3;
-                if(reward.getSlot() == 4) slot = Configuration.GUI_REWARDSLOT_4;
-                if(reward.getSlot() == 5) slot = Configuration.GUI_REWARDSLOT_5;
-                if(reward.getSlot() == 6) slot = Configuration.GUI_REWARDSLOT_6;
-            }
-
-            while(rewards.contains(reward)) {
-                int rand = random.nextInt(rewardList.size());
-                reward = rewardList.get(rand);
-            }
-
-            rewards.add(reward);
-
-            int price = reward.getPrice();
-            List<String> lore = new ArrayList<>();
-            reward.getLore().forEach(string -> lore.add(string.replace("%price%", String.valueOf(price))));
-
-            ItemStack rewardItem = new ItemBuilder(reward.getMaterial())
-                    .setName(reward.getName())
-                    .setAmount(reward.getAmount())
-                    .setLore(lore)
-                    .setDurability(reward.getDurability())
-                    .toItemStack();
-            inventory.setItem(slot, rewardItem);
-        }
-    }
-
-    public void updateSpecialRewards() {
-        rewards.stream().filter(reward -> reward.isSpecial()).collect(Collectors.toSet()).forEach(rewards::remove);
-        Random random = new Random();
-
-        inventory.setItem(Configuration.GUI_SPECIAL_REWARDSLOT_1, null);
-        inventory.setItem(Configuration.GUI_SPECIAL_REWARDSLOT_2, null);
-
-        for (int i = 0; i < 2; i++) {
-            List<Reward> rewardList = rewardManager.getRewards().stream().filter(reward -> reward.isSpecial()).collect(Collectors.toList());
-            int r = random.nextInt(rewardList.size());
-            Reward reward;
-            reward = rewardList.get(r);
-
-            int slot = 0;
-
-            if(reward.getSlot() == 1) slot = Configuration.GUI_SPECIAL_REWARDSLOT_1;
-            if(reward.getSlot() == 2) slot = Configuration.GUI_SPECIAL_REWARDSLOT_2;
-
-            while(inventory.getItem(slot) != null) {
-                int rand = random.nextInt(rewardList.size());
-                reward = rewardList.get(rand);
-                if(reward.getSlot() == 1) slot = Configuration.GUI_SPECIAL_REWARDSLOT_1;
-                if(reward.getSlot() == 2) slot = Configuration.GUI_SPECIAL_REWARDSLOT_2;
-            }
-
-            while(rewards.contains(reward)) {
-                int rand = random.nextInt(rewardList.size());
-                reward = rewardList.get(rand);
-            }
-
-            rewards.add(reward);
-
-            int price = reward.getPrice();
-            List<String> lore = new ArrayList<>();
-            reward.getLore().forEach(string -> lore.add(string.replace("%price%", String.valueOf(price))));
-
-            ItemStack rewardItem = new ItemBuilder(reward.getMaterial())
-                    .setName(reward.getName())
-                    .setAmount(reward.getAmount())
-                    .setLore(lore)
-                    .setDurability(reward.getDurability())
-                    .toItemStack();
-            inventory.setItem(slot, rewardItem);
-        }
-    }
-
     public Storable getStorage() {
         return storage;
     }
@@ -305,6 +201,10 @@ public class MobCoins extends JavaPlugin {
         return chanceManager;
     }
 
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
     public long getNormalTime() {
         return normalTime;
     }
@@ -321,23 +221,7 @@ public class MobCoins extends JavaPlugin {
         this.specialTime = specialTime;
     }
 
-    public BukkitRunnable getNormalTimer() {
-        return normalTimer;
-    }
-
-    public void setNormalTimer(BukkitRunnable normalTimer) {
-        this.normalTimer = normalTimer;
-    }
-
-    public BukkitRunnable getSpecialTimer() {
-        return specialTimer;
-    }
-
-    public void setSpecialTimer(BukkitRunnable specialTimer) {
-        this.specialTimer = specialTimer;
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
 }
