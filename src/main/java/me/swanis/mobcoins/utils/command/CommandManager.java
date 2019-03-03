@@ -1,8 +1,10 @@
 package me.swanis.mobcoins.utils.command;
 
+import com.google.common.collect.Lists;
 import me.swanis.mobcoins.MobCoins;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,15 +20,11 @@ public class CommandManager {
 
     public void register(PluginCommand pluginCommand) {
         Class<?> clazz = pluginCommand.getClass();
-        Command command = null;
+        Method method = Arrays.stream(clazz.getMethods()).filter(m -> m.getAnnotation(Command.class) != null).findFirst().orElse(null);
 
-        for(Method method : clazz.getMethods()) {
-            if(method.getAnnotation(Command.class) != null) {
-                command = method.getAnnotation(Command.class);
-            }
-        }
+        if(method == null) return;
 
-        if(command == null) return;
+        Command command = method.getAnnotation(Command.class);
 
         pluginCommand.setCommand(command.command());
         pluginCommand.setPermission(command.permission());
