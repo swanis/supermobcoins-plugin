@@ -121,6 +121,8 @@ public class MobCoins extends JavaPlugin {
         if(!loaded) {
             normalTime = System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
             specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
+            rewardManager.refreshNormalRewards();
+            rewardManager.refreshSpecialRewards();
         }
 
         new BukkitRunnable() {
@@ -138,33 +140,34 @@ public class MobCoins extends JavaPlugin {
                     getServer().broadcastMessage(Configuration.MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE);
                 }
             }
-        }.runTaskTimer(this, 0L, 20L);
+        }.runTaskTimerAsynchronously(this, 0L, 20L);
     }
 
     public void loadInventory() {
         inventory = Bukkit.createInventory(null, (Configuration.GUI_ROWS * 9), Configuration.GUI_TITLE);
 
-        rewardManager.refreshNormalRewards();
-        rewardManager.refreshSpecialRewards();
-
         ItemStack mobCoinsItem = new ItemBuilder(Configuration.GUI_MOBCOINS_ITEM_MATERIAL)
                 .setName(Configuration.GUI_MOBCOINS_ITEM_NAME)
                 .setLore(Configuration.GUI_MOBCOINS_ITEM_LORE)
+                .setDurability(Configuration.GUI_MOBCOINS_ITEM_DURABILITY)
                 .toItemStack();
         inventory.setItem(Configuration.GUI_MOBCOINS_ITEM_SLOT, mobCoinsItem);
         ItemStack specialMobCoinsItem = new ItemBuilder(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL)
                 .setName(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_NAME)
                 .setLore(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE)
+                .setDurability(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY)
                 .toItemStack();
         inventory.setItem(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_SLOT, specialMobCoinsItem);
         ItemStack infoItem = new ItemBuilder(Configuration.GUI_INFO_ITEM_MATERIAL)
                 .setName(Configuration.GUI_INFO_ITEM_NAME)
                 .setLore(Configuration.GUI_INFO_ITEM_LORE)
+                .setDurability(Configuration.GUI_INFO_ITEM_DURABILITY)
                 .toItemStack();
         inventory.setItem(Configuration.GUI_INFO_ITEM_SLOT, infoItem);
         ItemStack amountItem = new ItemBuilder(Configuration.GUI_AMOUNT_ITEM_MATERIAL)
                 .setName(Configuration.GUI_AMOUNT_ITEM_NAME)
                 .setLore(Configuration.GUI_AMOUNT_ITEM_LORE)
+                .setDurability(Configuration.GUI_AMOUNT_ITEM_DURABILITY)
                 .toItemStack();
         inventory.setItem(Configuration.GUI_AMOUNT_ITEM_SLOT, amountItem);
 

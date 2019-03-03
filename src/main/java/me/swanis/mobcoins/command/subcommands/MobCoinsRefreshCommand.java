@@ -36,12 +36,14 @@ public class MobCoinsRefreshCommand extends PluginCommand {
         }
 
         if(args[1].equalsIgnoreCase("normal")) {
-            instance.setNormalTime(System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
+            instance.setNormalTime(System.currentTimeMillis());
+            commandSender.sendMessage("The normal items will refresh in a moment...");
             return;
         }
 
         if(args[1].equalsIgnoreCase("special")) {
-            instance.setSpecialTime(System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000);
+            instance.setSpecialTime(System.currentTimeMillis());
+            commandSender.sendMessage("The special items will refresh in a moment...");
             return;
         }
     }

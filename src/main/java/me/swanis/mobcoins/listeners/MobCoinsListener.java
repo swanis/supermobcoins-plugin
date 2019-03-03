@@ -19,7 +19,10 @@ public class MobCoinsListener implements Listener {
         Player player = profile.getPlayer();
 
         profile.setMobCoins(profile.getMobCoins() + event.getAmount());
-        player.sendMessage(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE.replace("%amount%", String.valueOf(event.getAmount())));
+
+        if(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT) {
+            player.sendMessage(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE.replace("%amount%", String.valueOf(event.getAmount())));
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

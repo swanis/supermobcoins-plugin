@@ -20,6 +20,7 @@ gui:
       - "&2&l* &aTime Remaining&f: &7%time%"
       - ""
       - "&7&o(( These items will automatically update to new items... ))"
+    durability: 0
   special_mobcoins_item:
     material: "WATCH"
     slot: 2
@@ -29,6 +30,7 @@ gui:
       - "&2&l* &aTime Remaining&f: &7%time%"
       - ""
       - "&7&o(( These items will automatically update to new items... ))"
+    durability: 0
   info_item:
     material: "BOOK"
     slot: 35
@@ -44,11 +46,13 @@ gui:
       - "&bCreepers and Endermans &7&o(8% chance)"
       - "&7&m-------------------------------------"
       - " "
+    durability: 0
   amount_item:
     material: "DOUBLE_PLANT"
     slot: 27
     name: "&3You currently have &b%coins% &3mobcoins"
     lore: []
+    durability: 0
   filler:
     enabled: true
     item:
@@ -68,6 +72,7 @@ mobcoin_item:
 mobcoin_normal_shop_update_hours: 24
 mobcoin_special_shop_update_hours: 72
 mobcoins_only_from_naturally_spawned_mods: false
+received_mobcoin_from_mob_message_sent: true
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"

@@ -32,7 +32,7 @@ public class RewardManager {
     private void loadRewards() {
         FileConfiguration config = rewardsFile.getConfig();
 
-        for(int i = 0; i<6; i++) {
+        for(int i = 0; i < 6; i++) {
             int slot = i + 1;
             config.getConfigurationSection("Reward.Normal.Slot" + slot).getKeys(false).forEach(string -> {
                 String prefix = "Reward.Normal.Slot" + slot + "." + string;
@@ -51,7 +51,7 @@ public class RewardManager {
             });
         }
 
-        for(int i = 0; i <2; i++) {
+        for(int i = 0; i < 2; i++) {
             int slot = i + 1;
             config.getConfigurationSection("Reward.Special.Slot" + slot).getKeys(false).forEach(string -> {
                 String prefix = "Reward.Special.Slot" + slot + "." + string;
@@ -104,7 +104,7 @@ public class RewardManager {
         instance.setSpecialTime(config.getLong("specialtime"));
         instance.setLoaded(true);
 
-        for(int i = 0; i<6; i++) {
+        for(int i = 0; i < 6; i++) {
             int slot = i + 1;
             Reward reward = getReward(config.getString(slot + ".name"));
 
@@ -135,7 +135,7 @@ public class RewardManager {
             instance.getInventory().setItem(rewardSlot, rewardItem);
         }
 
-        for(int i = 0; i<2; i++) {
+        for(int i = 0; i < 2; i++) {
             int slot = i + 1;
             Reward reward = getReward(config.getString("Special" + slot + ".name"));
 
@@ -256,10 +256,10 @@ public class RewardManager {
     }
 
     public void reloadRewards() {
+        saveLastRewards();
+        currentRewards.clear();
         rewardsFile = new YamlFile("rewards", instance);
-        rewards.clear();
-        loadRewards();
-        instance.loadInventory();
+        loadLastRewards();
     }
 
     public Reward getReward(String name) {

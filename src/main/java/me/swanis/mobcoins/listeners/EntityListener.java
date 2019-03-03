@@ -24,8 +24,6 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        if(event.getEntity().getKiller() == null) return;
-
         if(Configuration.MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS) {
             if(!event.getEntity().hasMetadata("naturallySpawned")) {
                 return;
@@ -33,11 +31,12 @@ public class EntityListener implements Listener {
         }
 
         Player killer = event.getEntity().getKiller();
+
+        if(killer == null) return;
+
         Profile profile = instance.getProfileManager().getProfile(killer.getUniqueId());
         DropChance dropChance = instance.getChanceManager().getChance(event.getEntityType());
 
-        if(killer == null) return;
-        if(profile == null) return;
         if(dropChance == null) return;
 
         Random random = new Random();

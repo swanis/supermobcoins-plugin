@@ -24,18 +24,22 @@ public class Configuration {
     public static int GUI_MOBCOINS_ITEM_SLOT;
     public static String GUI_MOBCOINS_ITEM_NAME;
     public static List<String> GUI_MOBCOINS_ITEM_LORE = new ArrayList<>();
+    public static short GUI_MOBCOINS_ITEM_DURABILITY;
     public static Material GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL;
     public static int GUI_SPECIAL_MOBCOINS_ITEM_SLOT;
     public static String GUI_SPECIAL_MOBCOINS_ITEM_NAME;
     public static List<String> GUI_SPECIAL_MOBCOINS_ITEM_LORE = new ArrayList<>();
+    public static short GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY;
     public static Material GUI_INFO_ITEM_MATERIAL;
     public static int GUI_INFO_ITEM_SLOT;
     public static String GUI_INFO_ITEM_NAME;
     public static List<String> GUI_INFO_ITEM_LORE = new ArrayList<>();
+    public static short GUI_INFO_ITEM_DURABILITY;
     public static Material GUI_AMOUNT_ITEM_MATERIAL;
     public static int GUI_AMOUNT_ITEM_SLOT;
     public static String GUI_AMOUNT_ITEM_NAME;
     public static List<String> GUI_AMOUNT_ITEM_LORE = new ArrayList<>();
+    public static short GUI_AMOUNT_ITEM_DURABILITY;
     public static boolean GUI_FILLER_ENABLED;
     public static Material GUI_FILLER_ITEM_MATERIAL;
     public static String GUI_FILLER_ITEM_NAME;
@@ -48,6 +52,7 @@ public class Configuration {
     public static boolean GUI_OPEN_SOUND_ENABLED;
     public static Sound GUI_OPEN_SOUND_TYPE;
     public static boolean MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS;
+    public static boolean RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -94,21 +99,25 @@ public class Configuration {
         GUI_MOBCOINS_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.mobcoins_item.name"));
         Configuration.GUI_MOBCOINS_ITEM_LORE.clear();
         instance.getConfig().getStringList("gui.mobcoins_item.lore").forEach(string -> Configuration.GUI_MOBCOINS_ITEM_LORE.add(StringUtil.color(string)));
+        GUI_MOBCOINS_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.mobcoins_item.durability");
         GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.special_mobcoins_item.material"));
         GUI_SPECIAL_MOBCOINS_ITEM_SLOT = instance.getConfig().getInt("gui.special_mobcoins_item.slot");
         GUI_SPECIAL_MOBCOINS_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.special_mobcoins_item.name"));
         Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE.clear();
         instance.getConfig().getStringList("gui.special_mobcoins_item.lore").forEach(string -> Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE.add(StringUtil.color(string)));
+        GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.special_mobcoins_item.durability");
         GUI_INFO_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.info_item.material"));
         GUI_INFO_ITEM_SLOT = instance.getConfig().getInt("gui.info_item.slot");
         GUI_INFO_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.info_item.name"));
         Configuration.GUI_INFO_ITEM_LORE.clear();
         instance.getConfig().getStringList("gui.info_item.lore").forEach(string -> Configuration.GUI_INFO_ITEM_LORE.add(StringUtil.color(string)));
+        GUI_INFO_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.info_item.durability");
         GUI_AMOUNT_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.amount_item.material"));
         GUI_AMOUNT_ITEM_SLOT = instance.getConfig().getInt("gui.amount_item.slot");
         GUI_AMOUNT_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.amount_item.name"));
         Configuration.GUI_AMOUNT_ITEM_LORE.clear();
         instance.getConfig().getStringList("gui.amount_item.lore").forEach(string -> Configuration.GUI_AMOUNT_ITEM_LORE.add(StringUtil.color(string)));
+        GUI_AMOUNT_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.amount_item.durability");
         GUI_FILLER_ENABLED = instance.getConfig().getBoolean("gui.filler.enabled");
         GUI_FILLER_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.filler.item.material"));
         GUI_FILLER_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.filler.item.name"));
@@ -122,6 +131,7 @@ public class Configuration {
         MOBCOIN_NORMAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_normal_shop_update_hours");
         MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_special_shop_update_hours");
         MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS = instance.getConfig().getBoolean("mobcoins_only_from_naturally_spawned_mods");
+        RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT = instance.getConfig().getBoolean("received_mobcoin_from_mob_message_sent");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
