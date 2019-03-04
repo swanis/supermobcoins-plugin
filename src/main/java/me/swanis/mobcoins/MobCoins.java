@@ -151,24 +151,25 @@ public class MobCoins extends JavaPlugin {
                 .setLore(Configuration.GUI_MOBCOINS_ITEM_LORE)
                 .setDurability(Configuration.GUI_MOBCOINS_ITEM_DURABILITY)
                 .toItemStack();
-        inventory.setItem(Configuration.GUI_MOBCOINS_ITEM_SLOT, mobCoinsItem);
         ItemStack specialMobCoinsItem = new ItemBuilder(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL)
                 .setName(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_NAME)
                 .setLore(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE)
                 .setDurability(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY)
                 .toItemStack();
-        inventory.setItem(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_SLOT, specialMobCoinsItem);
         ItemStack infoItem = new ItemBuilder(Configuration.GUI_INFO_ITEM_MATERIAL)
                 .setName(Configuration.GUI_INFO_ITEM_NAME)
                 .setLore(Configuration.GUI_INFO_ITEM_LORE)
                 .setDurability(Configuration.GUI_INFO_ITEM_DURABILITY)
                 .toItemStack();
-        inventory.setItem(Configuration.GUI_INFO_ITEM_SLOT, infoItem);
         ItemStack amountItem = new ItemBuilder(Configuration.GUI_AMOUNT_ITEM_MATERIAL)
                 .setName(Configuration.GUI_AMOUNT_ITEM_NAME)
                 .setLore(Configuration.GUI_AMOUNT_ITEM_LORE)
                 .setDurability(Configuration.GUI_AMOUNT_ITEM_DURABILITY)
                 .toItemStack();
+
+        inventory.setItem(Configuration.GUI_MOBCOINS_ITEM_SLOT, mobCoinsItem);
+        inventory.setItem(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_SLOT, specialMobCoinsItem);
+        inventory.setItem(Configuration.GUI_INFO_ITEM_SLOT, infoItem);
         inventory.setItem(Configuration.GUI_AMOUNT_ITEM_SLOT, amountItem);
 
         if(Configuration.GUI_FILLER_ENABLED) {
