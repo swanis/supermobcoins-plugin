@@ -57,6 +57,8 @@ public class PlayerListener implements Listener {
         if(!item.hasItemMeta()) return;
         if(!item.getItemMeta().hasDisplayName()) return;
         if(!item.getItemMeta().getDisplayName().equals(Configuration.MOBCOIN_ITEM_NAME)) return;
+        if(!item.getItemMeta().hasLore()) return;
+        if(!item.getItemMeta().getLore().equals(Configuration.MOBCOIN_ITEM_LORE));
 
         Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 
