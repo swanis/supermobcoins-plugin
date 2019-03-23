@@ -40,7 +40,8 @@ public class MobCoinsCommand extends PluginCommand {
                 return;
             }
 
-            Inventory inventory = instance.getInventory();
+
+            Inventory inventory = clone(instance.getInventory());
 
             List<String> amountLore = new ArrayList<>();
             Configuration.GUI_AMOUNT_ITEM_LORE.forEach(string -> amountLore.add(string.replace("%coins%", String.valueOf(profile.getMobCoins()))));
@@ -78,5 +79,11 @@ public class MobCoinsCommand extends PluginCommand {
         }
 
         Configuration.MOBCOINS_HELP_LORE.forEach(commandSender::sendMessage);
+    }
+
+    private Inventory clone(Inventory inventory) {
+        Inventory clone = instance.getServer().createInventory(null, inventory.getSize(), inventory.getTitle());
+        clone.setContents(inventory.getContents());
+        return clone;
     }
 }

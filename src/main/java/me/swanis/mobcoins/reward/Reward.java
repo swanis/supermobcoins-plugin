@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Reward {
 
-    private String name, command;
-    private int price, amount;
+    private String configKey, name, command;
+    private int price, amount, slot;
     private Material material;
     private List<String> lore;
     private short durability;
     private boolean special;
-    private int slot;
 
-    public Reward(String name, String command, int price, Material material, int amount, List<String> lore, short durability, boolean special, int slot) {
+    public Reward(String configKey, String name, String command, int price, Material material, int amount, List<String> lore, short durability, boolean special, int slot) {
+        this.configKey = configKey;
         this.name = name;
         this.command = command;
         this.price = price;
@@ -26,6 +26,9 @@ public class Reward {
         this.slot = slot;
     }
 
+    public String getConfigKey() {
+        return configKey;
+    }
 
     public String getName() {
         return name;

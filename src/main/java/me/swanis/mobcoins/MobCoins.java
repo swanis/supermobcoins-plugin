@@ -144,7 +144,7 @@ public class MobCoins extends JavaPlugin {
     }
 
     public void loadInventory() {
-        inventory = Bukkit.createInventory(null, (Configuration.GUI_ROWS * 9), Configuration.GUI_TITLE);
+        inventory = getServer().createInventory(null, (Configuration.GUI_ROWS * 9), Configuration.GUI_TITLE);
 
         ItemStack mobCoinsItem = new ItemBuilder(Configuration.GUI_MOBCOINS_ITEM_MATERIAL)
                 .setName(Configuration.GUI_MOBCOINS_ITEM_NAME)

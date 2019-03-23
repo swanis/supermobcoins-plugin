@@ -16,6 +16,6 @@ public class MobCoinsAuthorCommand extends PluginCommand {
 
     @Command(command = "author", subCommand = true, baseCommand = "mobcoins")
     public void onCommand(CommandSender commandSender, String[] args) {
-        commandSender.sendMessage("This server is running MobCoins created by Swanis");
+        commandSender.sendMessage("This server is running SuperMobCoins created by Swanis (https://www.mc-market.org/members/71127/)");
     }
 }

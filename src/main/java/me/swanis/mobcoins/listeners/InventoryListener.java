@@ -36,32 +36,30 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        boolean item = false;
-
         if(inventory.getItem(event.getSlot()) != null) {
-            for(Reward reward : instance.getRewardManager().getRewards()) {
-                if(!inventory.getItem(event.getSlot()).getItemMeta().getDisplayName().equals(reward.getName())) continue;
-                if(profile.getMobCoins() < reward.getPrice()) {
-                    player.sendMessage(Configuration.NOT_ENOUGH_MOBCOINS_MESSAGE);
-                    continue;
-                }
+            Reward reward = instance.getRewardManager().getCurrentRewards().values().stream().filter(r -> r.getSlot() == event.getSlot()).findFirst().orElse(null);
 
-                instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), reward.getCommand().replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString()));
-                profile.setMobCoins(profile.getMobCoins() - reward.getPrice());
-                player.sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", reward.getName()).replace("%amount%", String.valueOf(reward.getPrice())));
-
-                item = true;
-                break;
+            if(reward == null) {
+                event.setCancelled(true);
+                return;
             }
-        }
 
-        if(!item) {
-            event.setCancelled(true);
-            return;
+            if(profile.getMobCoins() < reward.getPrice()) {
+                event.setCancelled(true);
+                player.sendMessage(Configuration.NOT_ENOUGH_MOBCOINS_MESSAGE);
+                return;
+            }
+
+            instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), reward.getCommand().replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString()));
+            profile.setMobCoins(profile.getMobCoins() - reward.getPrice());
+            player.sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", reward.getName()).replace("%amount%", String.valueOf(reward.getPrice())));
         }
 
         event.setCancelled(true);
-        closeInventory(player);
+
+        if(Configuration.CLOSE_GUI_ON_BUY) {
+            closeInventory(player);
+        }
     }
 
     private void closeInventory(Player player) {
@@ -72,4 +70,22 @@ public class InventoryListener implements Listener {
             }
         }.runTaskLater(instance, 1L);
     }
+
+    /*
+    private int getRewardSlot(int slot, boolean special) {
+        if(!special) {
+            if (slot == Configuration.GUI_REWARDSLOT_1) return 1;
+            if (slot == Configuration.GUI_REWARDSLOT_2) return 2;
+            if (slot == Configuration.GUI_REWARDSLOT_3) return 3;
+            if (slot == Configuration.GUI_REWARDSLOT_4) return 4;
+            if (slot == Configuration.GUI_REWARDSLOT_5) return 5;
+            if (slot == Configuration.GUI_REWARDSLOT_6) return 6;
+        } else {
+            if (slot == Configuration.GUI_SPECIAL_REWARDSLOT_1) return 1;
+            if (slot == Configuration.GUI_SPECIAL_REWARDSLOT_2) return 2;
+        }
+
+        return 0;
+    }
+    */
 }

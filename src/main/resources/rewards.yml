@@ -1,115 +1,123 @@
-##########################################################################################################################################################################################
-#                                                                                                                                                                                        #
-# Example Config/How to use                                                                                                                                                              #
-#                                                                                                                                                                                        #
-##########################################################################################################################################################################################
-#                                                                                                                                                                                        #
-# Reward:                                                                                                                                                                                #
-#   Normal: (Set this to Normal/Special depending on which category you want the reward to be in)                                                                                        #
-#     Slot1: (Change this to the slot you want in the GUI, there can be multiple items under each slot)                                                                                  #
-#       Diamond: (This is the name of the Reward in the config, can be set to anything)                                                                                                  #
-#         name: "&b&l64x Diamond Blocks" (This is the name of the Reward in the In Game GUI, can be set to anything)                                                                     #
-#         command: "give %name% diamond_block 64" (This is the command that gets executed when the player purchases the reward) (Placeholders: %name%, %uuid%)                           #
-#         price: 100 (Amount of mobcoins the reward costs)                                                                                                                               #
-#         material: "DIAMOND_BLOCK" (Item shown in GUI, can be changed to any of these blocks on the website listed: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html)  #
-#         amount: 1 (Amount of the specified item shown in the GUI)                                                                                                                      #
-#         lore: (Lore of the item shown in the GUI, can be set to anything)                                                                                                              #
-#           - " "                                                                                                                                                                        #
-#           - "&3&l* &b&lPRICE: &7%price%⛁"                                                                                                                                              #
-#         durability: 0 (This is the durability of the item. If the item does not have durability, this will work as the data where you can change colors of blocks etc)                 #
-#                                                                                                                                                                                        #
-##########################################################################################################################################################################################
+#Normal
+#13
+Crate:
+  name: "&e&lCrate &6&l| &fBasic"
+  command: "crate givekey %name% basic 1"
+  price: 50
+  material: "TRIPWIRE_HOOK"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+    - " "
+    - "&e[!] &7Use at &e/Warp Crates"
+  durability: 0
+  special: false
+  slot: 13
+Crate2:
+  name: "&e&lCrate &6&l| &fOther"
+  command: "crate givekey %name% basic 1"
+  price: 50
+  material: "TRIPWIRE_HOOK"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+    - " "
+    - "&e[!] &7Use at &e/Warp Crates"
+  durability: 0
+  special: false
+  slot: 13
+#14
+Diamond:
+  name: "&b&l64x Diamond Blocks"
+  command: "give %name% diamond_block 64"
+  price: 100
+  material: "DIAMOND_BLOCK"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: false
+  slot: 14
+#15
+Emerald:
+  name: "&a&l64x Emerald Blocks"
+  command: "give %name% emerald_block 64"
+  price: 150
+  material: "EMERALD_BLOCK"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: false
+  slot: 15
+#22
+Tag:
+  name: '&f&l"&a&lBuyMe&f&l" &7Tag'
+  command: "tag give %name%"
+  price: 5
+  material: "NAME_TAG"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: false
+  slot: 22
+#23
+Spawner:
+  name: "&f&lIron Golem Spawner"
+  command: "ss give %name% ig 1"
+  price: 50
+  material: "MOB_SPAWNER"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: false
+  slot: 23
+#24
+Pet:
+  name: "&f&l1x &7&lWolf Pet"
+  command: "pet give %name% wolf"
+  material: "SKULL_ITEM"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  price: 10
+  special: false
+  slot: 24
 
-Reward:
-  Normal:
-    Slot1:
-      Crate:
-        name: "&e&lCrate &6&l| &fBasic"
-        command: "crate givekey %name% basic 1"
-        price: 50
-        material: "TRIPWIRE_HOOK"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-          - " "
-          - "&e[!] &7Use at &e/Warp Crates"
-        durability: 0
-    Slot2:
-      Diamond:
-        name: "&b&l64x Diamond Blocks"
-        command: "give %name% diamond_block 64"
-        price: 100
-        material: "DIAMOND_BLOCK"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-    Slot3:
-      Emerald:
-        name: "&a&l64x Emerald Blocks"
-        command: "give %name% emerald_block 64"
-        price: 150
-        material: "EMERALD_BLOCK"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-    Slot4:
-      Tag1:
-        name: '&f&l"&a&lBuyMe&f&l" &7Tag'
-        command: "tag give %name%"
-        price: 5
-        material: "NAME_TAG"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-    Slot5:
-      Spawner:
-        name: "&f&lIron Golem Spawner"
-        command: "ss give %name% ig 1"
-        price: 50
-        material: "MOB_SPAWNER"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-    Slot6:
-      Pet:
-        name: "&f&l1x &7&lWolf Pet"
-        command: "pet give %name% wolf"
-        material: "SKULL_ITEM"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-        price: 10
-  Special:
-    Slot1:
-      SuperPickaxe:
-        name: "&lThe Super Pickaxe"
-        command: 'give %name% diamond_pickaxe 1 0 { display: { Name: "§b§lThe Super Pickaxe" }, ench: [ { id: 21, lvl: 10000 }, { id: 32, lvl: 10000 } ], Unbreakable: 1 }'
-        price: 500
-        material: "DIAMOND_PICKAXE"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
-    Slot2:
-      Rank1:
-        name: "&e&lRank &8» &b&lBasic"
-        command: "pex user %name% group set basic"
-        price: 1500
-        material: "PAPER"
-        amount: 1
-        lore:
-          - " "
-          - "&3&l* &b&lPRICE: &7%price%⛁"
-        durability: 0
+#Special
+#11
+SuperPickaxe:
+  name: "&lThe Super Pickaxe"
+  command: 'give %name% diamond_pickaxe 1 0 { display: { Name: "§b§lThe Super Pickaxe" }, ench: [ { id: 21, lvl: 10000 }, { id: 32, lvl: 10000 } ], Unbreakable: 1 }'
+  price: 500
+  material: "DIAMOND_PICKAXE"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: true
+  slot: 11
+#20
+Rank:
+  name: "&e&lRank &8» &b&lBasic"
+  command: "pex user %name% group set basic"
+  price: 1500
+  material: "PAPER"
+  amount: 1
+  lore:
+    - " "
+    - "&3&l* &b&lPRICE: &7%price%⛁"
+  durability: 0
+  special: true
+  slot: 20

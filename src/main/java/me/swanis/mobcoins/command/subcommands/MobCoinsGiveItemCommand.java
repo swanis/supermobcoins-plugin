@@ -49,7 +49,7 @@ public class MobCoinsGiveItemCommand extends PluginCommand {
 
         int amount = Integer.valueOf(args[2]);
 
-        ItemStack mobCoinItem = new ItemBuilder(Material.DOUBLE_PLANT)
+        ItemStack mobCoinItem = new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL)
                 .setName(Configuration.MOBCOIN_ITEM_NAME)
                 .setLore(Configuration.MOBCOIN_ITEM_LORE)
                 .setAmount(amount)

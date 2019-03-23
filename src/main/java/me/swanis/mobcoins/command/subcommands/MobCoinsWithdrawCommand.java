@@ -74,7 +74,7 @@ public class MobCoinsWithdrawCommand extends PluginCommand {
                 break;
             }
 
-            ItemStack mobCoinItem = new ItemBuilder(Material.DOUBLE_PLANT)
+            ItemStack mobCoinItem = new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL)
                     .setName(Configuration.MOBCOIN_ITEM_NAME)
                     .setLore(Configuration.MOBCOIN_ITEM_LORE)
                     .toItemStack();

@@ -1,16 +1,6 @@
 gui:
   title: "&8&lMOB COINS"
   rows: 4
-  rewardslot:
-    1: 13
-    2: 14
-    3: 15
-    4: 22
-    5: 23
-    6: 24
-  special_rewardslot:
-    1: 11
-    2: 20
   mobcoins_item:
     material: "WATCH"
     slot: 5
@@ -73,6 +63,7 @@ mobcoin_normal_shop_update_hours: 24
 mobcoin_special_shop_update_hours: 72
 mobcoins_only_from_naturally_spawned_mods: false
 received_mobcoin_from_mob_message_sent: true
+close_gui_on_buy: true
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"

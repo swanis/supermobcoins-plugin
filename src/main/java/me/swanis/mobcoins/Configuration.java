@@ -12,14 +12,6 @@ public class Configuration {
 
     public static String GUI_TITLE;
     public static int GUI_ROWS;
-    public static int GUI_REWARDSLOT_1;
-    public static int GUI_REWARDSLOT_2;
-    public static int GUI_REWARDSLOT_3;
-    public static int GUI_REWARDSLOT_4;
-    public static int GUI_REWARDSLOT_5;
-    public static int GUI_REWARDSLOT_6;
-    public static int GUI_SPECIAL_REWARDSLOT_1;
-    public static int GUI_SPECIAL_REWARDSLOT_2;
     public static Material GUI_MOBCOINS_ITEM_MATERIAL;
     public static int GUI_MOBCOINS_ITEM_SLOT;
     public static String GUI_MOBCOINS_ITEM_NAME;
@@ -53,6 +45,7 @@ public class Configuration {
     public static Sound GUI_OPEN_SOUND_TYPE;
     public static boolean MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS;
     public static boolean RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT;
+    public static boolean CLOSE_GUI_ON_BUY;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -86,14 +79,6 @@ public class Configuration {
     public Configuration(MobCoins instance) {
         GUI_TITLE = StringUtil.color(instance.getConfig().getString("gui.title"));
         GUI_ROWS =  instance.getConfig().getInt("gui.rows");
-        GUI_REWARDSLOT_1 = instance.getConfig().getInt("gui.rewardslot.1");
-        GUI_REWARDSLOT_2 = instance.getConfig().getInt("gui.rewardslot.2");
-        GUI_REWARDSLOT_3 = instance.getConfig().getInt("gui.rewardslot.3");
-        GUI_REWARDSLOT_4 = instance.getConfig().getInt("gui.rewardslot.4");
-        GUI_REWARDSLOT_5 = instance.getConfig().getInt("gui.rewardslot.5");
-        GUI_REWARDSLOT_6 = instance.getConfig().getInt("gui.rewardslot.6");
-        GUI_SPECIAL_REWARDSLOT_1 = instance.getConfig().getInt("gui.special_rewardslot.1");
-        GUI_SPECIAL_REWARDSLOT_2 = instance.getConfig().getInt("gui.special_rewardslot.2");
         GUI_MOBCOINS_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.mobcoins_item.material"));
         GUI_MOBCOINS_ITEM_SLOT = instance.getConfig().getInt("gui.mobcoins_item.slot");
         GUI_MOBCOINS_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.mobcoins_item.name"));
@@ -132,6 +117,7 @@ public class Configuration {
         MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_special_shop_update_hours");
         MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS = instance.getConfig().getBoolean("mobcoins_only_from_naturally_spawned_mods");
         RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT = instance.getConfig().getBoolean("received_mobcoin_from_mob_message_sent");
+        CLOSE_GUI_ON_BUY = instance.getConfig().getBoolean("close_gui_on_buy");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
