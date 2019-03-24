@@ -39,11 +39,13 @@ public class MobCoins extends JavaPlugin {
     private long normalTime;
     private long specialTime;
     private boolean loaded;
+    private boolean wildstacker;
 
     @Override
     public void onEnable() {
         loadConfiguration();
         loadStorage();
+        loadDependencies();
 
         registerManagers();
         registerCommands();
@@ -72,6 +74,12 @@ public class MobCoins extends JavaPlugin {
     private void loadStorage() {
         storage = new YamlStorage(this);
         storage.init();
+    }
+
+    private void loadDependencies() {
+        if(getServer().getPluginManager().getPlugin("WildStacker") != null) {
+            wildstacker = true;
+        }
     }
 
     private void registerManagers() {
@@ -191,6 +199,10 @@ public class MobCoins extends JavaPlugin {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public boolean hasWildstacker() {
+        return wildstacker;
     }
 
     public ProfileManager getProfileManager() {

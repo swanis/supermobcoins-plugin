@@ -53,5 +53,10 @@
             <version>2.3.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ome_r</groupId>
+            <artifactId>wildstackerapi</artifactId>
+            <version>13</version>
+        </dependency>
     </dependencies>
 </project>

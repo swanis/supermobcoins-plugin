@@ -1,5 +1,6 @@
 package me.swanis.mobcoins.listeners;
 
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.chance.DropChance;
@@ -41,10 +42,25 @@ public class EntityListener implements Listener {
 
         Random random = new Random();
 
-        if(random.nextInt(100) > dropChance.getChance()) return;
+        if(instance.hasWildstacker()) {
+            int amount = 0;
 
-        MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
-        instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
+            for (int i = 0; i < WildStackerAPI.getEntityAmount(event.getEntity()); i++) {
+                if(random.nextInt(100) > dropChance.getChance()) continue;
+
+                amount++;
+            }
+
+            if(amount == 0) return;
+
+            MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, amount);
+            instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
+        } else {
+            if(random.nextInt(100) > dropChance.getChance()) return;
+
+            MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
+            instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
+        }
     }
 
     @EventHandler

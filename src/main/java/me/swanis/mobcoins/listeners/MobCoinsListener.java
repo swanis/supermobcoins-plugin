@@ -1,5 +1,6 @@
 package me.swanis.mobcoins.listeners;
 
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.events.MobCoinsRedeemEvent;
