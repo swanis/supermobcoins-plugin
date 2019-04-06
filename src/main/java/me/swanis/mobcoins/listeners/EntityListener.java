@@ -42,7 +42,7 @@ public class EntityListener implements Listener {
 
         Random random = new Random();
 
-        if(instance.hasWildstacker()) {
+        if(instance.hasWildstacker() && Configuration.STACKING_SUPPORT) {
             int amount = 0;
 
             for (int i = 0; i < WildStackerAPI.getEntityAmount(event.getEntity()); i++) {

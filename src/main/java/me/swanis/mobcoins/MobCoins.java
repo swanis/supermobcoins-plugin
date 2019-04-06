@@ -108,7 +108,7 @@ public class MobCoins extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
-        getServer().getPluginManager().registerEvents(new MobCoinsListener(), this);
+        getServer().getPluginManager().registerEvents(new MobCoinsListener(this), this);
     }
 
     private void registerPlaceholders() {

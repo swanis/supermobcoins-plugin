@@ -64,6 +64,7 @@ mobcoin_special_shop_update_hours: 72
 mobcoins_only_from_naturally_spawned_mods: false
 received_mobcoin_from_mob_message_sent: true
 close_gui_on_buy: true
+stacking_support: true
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"

@@ -46,6 +46,7 @@ public class Configuration {
     public static boolean MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS;
     public static boolean RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT;
     public static boolean CLOSE_GUI_ON_BUY;
+    public static boolean STACKING_SUPPORT;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -118,6 +119,7 @@ public class Configuration {
         MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS = instance.getConfig().getBoolean("mobcoins_only_from_naturally_spawned_mods");
         RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT = instance.getConfig().getBoolean("received_mobcoin_from_mob_message_sent");
         CLOSE_GUI_ON_BUY = instance.getConfig().getBoolean("close_gui_on_buy");
+        STACKING_SUPPORT = instance.getConfig().getBoolean("stacking_support");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));

@@ -4,6 +4,8 @@ import me.swanis.mobcoins.chance.ChanceManager;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
+import me.swanis.mobcoins.utils.ItemBuilder;
+import org.bukkit.inventory.ItemStack;
 
 public class MobCoinsAPI {
 
@@ -39,5 +41,13 @@ public class MobCoinsAPI {
     */
     public static Storable getStorage() {
         return instance.getStorage();
+    }
+
+    /*
+    Retrieve the mobcoin itemstack
+    */
+
+    public static ItemStack getMobCoinItem() {
+        return new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL).setName(Configuration.MOBCOIN_ITEM_NAME).setLore(Configuration.MOBCOIN_ITEM_LORE).toItemStack();
     }
 }

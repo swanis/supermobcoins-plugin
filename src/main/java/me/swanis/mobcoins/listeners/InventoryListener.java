@@ -2,6 +2,7 @@ package me.swanis.mobcoins.listeners;
 
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
+import me.swanis.mobcoins.events.MobCoinsShopEvent;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.reward.Reward;
 import org.bukkit.entity.Player;
@@ -50,9 +51,8 @@ public class InventoryListener implements Listener {
                 return;
             }
 
-            instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), reward.getCommand().replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString()));
-            profile.setMobCoins(profile.getMobCoins() - reward.getPrice());
-            player.sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", reward.getName()).replace("%amount%", String.valueOf(reward.getPrice())));
+            MobCoinsShopEvent mobCoinsShopEvent = new MobCoinsShopEvent(profile, reward, reward.getPrice());
+            instance.getServer().getPluginManager().callEvent(mobCoinsShopEvent);
         }
 
         event.setCancelled(true);
@@ -70,22 +70,4 @@ public class InventoryListener implements Listener {
             }
         }.runTaskLater(instance, 1L);
     }
-
-    /*
-    private int getRewardSlot(int slot, boolean special) {
-        if(!special) {
-            if (slot == Configuration.GUI_REWARDSLOT_1) return 1;
-            if (slot == Configuration.GUI_REWARDSLOT_2) return 2;
-            if (slot == Configuration.GUI_REWARDSLOT_3) return 3;
-            if (slot == Configuration.GUI_REWARDSLOT_4) return 4;
-            if (slot == Configuration.GUI_REWARDSLOT_5) return 5;
-            if (slot == Configuration.GUI_REWARDSLOT_6) return 6;
-        } else {
-            if (slot == Configuration.GUI_SPECIAL_REWARDSLOT_1) return 1;
-            if (slot == Configuration.GUI_SPECIAL_REWARDSLOT_2) return 2;
-        }
-
-        return 0;
-    }
-    */
 }

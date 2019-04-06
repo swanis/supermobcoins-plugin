@@ -11,7 +11,6 @@ public class Profile {
         this.player = player;
     }
 
-
     public Player getPlayer() {
         return player;
     }
