@@ -23,6 +23,7 @@ public class MobCoinsReloadCommand extends PluginCommand {
     public void onCommand(CommandSender commandSender, String[] args) {
         instance.reloadConfig();
         new Configuration(instance);
+        instance.loadInventory();
         instance.getRewardManager().reloadRewards();
         instance.getChanceManager().reloadChances();
         commandSender.sendMessage("The configuration has been reloaded");

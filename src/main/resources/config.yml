@@ -1,48 +1,49 @@
 gui:
   title: "&8&lMOB COINS"
   rows: 4
-  mobcoins_item:
-    material: "WATCH"
-    slot: 5
-    name: "&b&lMOB COIN ITEMS"
-    lore:
-      - ""
-      - "&2&l* &aTime Remaining&f: &7%time%"
-      - ""
-      - "&7&o(( These items will automatically update to new items... ))"
-    durability: 0
-  special_mobcoins_item:
-    material: "WATCH"
-    slot: 2
-    name: "&3&lSPECIAL MOB COIN ITEMS"
-    lore:
-      - ""
-      - "&2&l* &aTime Remaining&f: &7%time%"
-      - ""
-      - "&7&o(( These items will automatically update to new items... ))"
-    durability: 0
-  info_item:
-    material: "BOOK"
-    slot: 35
-    name: " "
-    lore:
-      - "&7&m-------------------------------------"
-      - "&bMob Coins &7can be earned by killing &c&lHOSTILE &7mobs."
-      - "&bMob Coins &7will allow you to buy items from the shop menu"
-      - "&7Use &b/Mobcoins Help&7 for more!"
-      - " "
-      - "&3&lMobs that drop coins:"
-      - "&bZombies, &bSkeletons and &bBlazes &7&o(5% chance)"
-      - "&bCreepers and Endermans &7&o(8% chance)"
-      - "&7&m-------------------------------------"
-      - " "
-    durability: 0
-  amount_item:
-    material: "DOUBLE_PLANT"
-    slot: 27
-    name: "&3You currently have &b%coins% &3mobcoins"
-    lore: []
-    durability: 0
+  decoration:
+    mobcoins_item:
+      material: "WATCH"
+      name: "&b&lMOB COIN ITEMS"
+      lore:
+        - ""
+        - "&2&l* &aTime Remaining&f: &7%normaltime%"
+        - ""
+        - "&7&o(( These items will automatically update to new items... ))"
+      durability: 0
+      slot: 5
+    special_mobcoins_item:
+      material: "WATCH"
+      name: "&3&lSPECIAL MOB COIN ITEMS"
+      lore:
+        - ""
+        - "&2&l* &aTime Remaining&f: &7%specialtime%"
+        - ""
+        - "&7&o(( These items will automatically update to new items... ))"
+      durability: 0
+      slot: 2
+    amount_item:
+      material: "DOUBLE_PLANT"
+      name: "&3You currently have &b%coins% &3mobcoins"
+      lore: []
+      durability: 0
+      slot: 27
+    info_item:
+      material: "BOOK"
+      name: " "
+      lore:
+        - "&7&m-------------------------------------"
+        - "&bMob Coins &7can be earned by killing &c&lHOSTILE &7mobs."
+        - "&bMob Coins &7will allow you to buy items from the shop menu"
+        - "&7Use &b/Mobcoins Help&7 for more!"
+        - " "
+        - "&3&lMobs that drop coins:"
+        - "&bZombies, &bSkeletons and &bBlazes &7&o(5% chance)"
+        - "&bCreepers and Endermans &7&o(8% chance)"
+        - "&7&m-------------------------------------"
+        - " "
+      durability: 0
+      slot: 35
   filler:
     enabled: true
     item:

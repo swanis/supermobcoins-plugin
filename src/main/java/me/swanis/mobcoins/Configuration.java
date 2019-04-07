@@ -1,37 +1,19 @@
 package me.swanis.mobcoins;
 
+import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.Sounds;
 import me.swanis.mobcoins.utils.StringUtil;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Configuration {
 
     public static String GUI_TITLE;
     public static int GUI_ROWS;
-    public static Material GUI_MOBCOINS_ITEM_MATERIAL;
-    public static int GUI_MOBCOINS_ITEM_SLOT;
-    public static String GUI_MOBCOINS_ITEM_NAME;
-    public static List<String> GUI_MOBCOINS_ITEM_LORE = new ArrayList<>();
-    public static short GUI_MOBCOINS_ITEM_DURABILITY;
-    public static Material GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL;
-    public static int GUI_SPECIAL_MOBCOINS_ITEM_SLOT;
-    public static String GUI_SPECIAL_MOBCOINS_ITEM_NAME;
-    public static List<String> GUI_SPECIAL_MOBCOINS_ITEM_LORE = new ArrayList<>();
-    public static short GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY;
-    public static Material GUI_INFO_ITEM_MATERIAL;
-    public static int GUI_INFO_ITEM_SLOT;
-    public static String GUI_INFO_ITEM_NAME;
-    public static List<String> GUI_INFO_ITEM_LORE = new ArrayList<>();
-    public static short GUI_INFO_ITEM_DURABILITY;
-    public static Material GUI_AMOUNT_ITEM_MATERIAL;
-    public static int GUI_AMOUNT_ITEM_SLOT;
-    public static String GUI_AMOUNT_ITEM_NAME;
-    public static List<String> GUI_AMOUNT_ITEM_LORE = new ArrayList<>();
-    public static short GUI_AMOUNT_ITEM_DURABILITY;
+    public static Map<Integer, ItemStack> GUI_DECORATION_ITEMS = new HashMap();
     public static boolean GUI_FILLER_ENABLED;
     public static Material GUI_FILLER_ITEM_MATERIAL;
     public static String GUI_FILLER_ITEM_NAME;
@@ -80,30 +62,25 @@ public class Configuration {
     public Configuration(MobCoins instance) {
         GUI_TITLE = StringUtil.color(instance.getConfig().getString("gui.title"));
         GUI_ROWS =  instance.getConfig().getInt("gui.rows");
-        GUI_MOBCOINS_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.mobcoins_item.material"));
-        GUI_MOBCOINS_ITEM_SLOT = instance.getConfig().getInt("gui.mobcoins_item.slot");
-        GUI_MOBCOINS_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.mobcoins_item.name"));
-        Configuration.GUI_MOBCOINS_ITEM_LORE.clear();
-        instance.getConfig().getStringList("gui.mobcoins_item.lore").forEach(string -> Configuration.GUI_MOBCOINS_ITEM_LORE.add(StringUtil.color(string)));
-        GUI_MOBCOINS_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.mobcoins_item.durability");
-        GUI_SPECIAL_MOBCOINS_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.special_mobcoins_item.material"));
-        GUI_SPECIAL_MOBCOINS_ITEM_SLOT = instance.getConfig().getInt("gui.special_mobcoins_item.slot");
-        GUI_SPECIAL_MOBCOINS_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.special_mobcoins_item.name"));
-        Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE.clear();
-        instance.getConfig().getStringList("gui.special_mobcoins_item.lore").forEach(string -> Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE.add(StringUtil.color(string)));
-        GUI_SPECIAL_MOBCOINS_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.special_mobcoins_item.durability");
-        GUI_INFO_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.info_item.material"));
-        GUI_INFO_ITEM_SLOT = instance.getConfig().getInt("gui.info_item.slot");
-        GUI_INFO_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.info_item.name"));
-        Configuration.GUI_INFO_ITEM_LORE.clear();
-        instance.getConfig().getStringList("gui.info_item.lore").forEach(string -> Configuration.GUI_INFO_ITEM_LORE.add(StringUtil.color(string)));
-        GUI_INFO_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.info_item.durability");
-        GUI_AMOUNT_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.amount_item.material"));
-        GUI_AMOUNT_ITEM_SLOT = instance.getConfig().getInt("gui.amount_item.slot");
-        GUI_AMOUNT_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.amount_item.name"));
-        Configuration.GUI_AMOUNT_ITEM_LORE.clear();
-        instance.getConfig().getStringList("gui.amount_item.lore").forEach(string -> Configuration.GUI_AMOUNT_ITEM_LORE.add(StringUtil.color(string)));
-        GUI_AMOUNT_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.amount_item.durability");
+
+        GUI_DECORATION_ITEMS.clear();
+        instance.getConfig().getConfigurationSection("gui.decoration").getKeys(false).forEach(string -> {
+            String prefix = "gui.decoration." + string;
+
+            System.out.println(prefix);
+
+            Material material = Material.valueOf(instance.getConfig().getString(prefix + ".material"));
+            String name = StringUtil.color(instance.getConfig().getString(prefix + ".name"));
+            List<String> lore = new ArrayList<>();
+            instance.getConfig().getStringList(prefix + ".lore").forEach(string1 -> lore.add(StringUtil.color(string1)));
+            short durability = (short) instance.getConfig().getInt(prefix + ".durability");
+            int slot = instance.getConfig().getInt(prefix + ".slot");
+
+            ItemStack itemStack = new ItemBuilder(material).setName(name).setLore(lore).setDurability(durability).toItemStack();
+
+            GUI_DECORATION_ITEMS.put(slot, itemStack);
+        });
+
         GUI_FILLER_ENABLED = instance.getConfig().getBoolean("gui.filler.enabled");
         GUI_FILLER_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.filler.item.material"));
         GUI_FILLER_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.filler.item.name"));

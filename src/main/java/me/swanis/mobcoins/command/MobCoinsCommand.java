@@ -43,27 +43,24 @@ public class MobCoinsCommand extends PluginCommand {
 
             Inventory inventory = clone(instance.getInventory());
 
-            List<String> amountLore = new ArrayList<>();
-            Configuration.GUI_AMOUNT_ITEM_LORE.forEach(string -> amountLore.add(string.replace("%coins%", String.valueOf(profile.getMobCoins()))));
-            String name = Configuration.GUI_AMOUNT_ITEM_NAME.replace("%coins%", String.valueOf(profile.getMobCoins()));
+            Configuration.GUI_DECORATION_ITEMS.keySet().forEach(integer -> {
+                ItemStack itemStack = Configuration.GUI_DECORATION_ITEMS.get(integer).clone();
 
-            ItemStack amountItem = new ItemBuilder(inventory.getItem(Configuration.GUI_AMOUNT_ITEM_SLOT)).setName(name).setLore(amountLore).toItemStack();
-            inventory.setItem(Configuration.GUI_AMOUNT_ITEM_SLOT, amountItem);
+                long normalTimeLeft = instance.getNormalTime() - System.currentTimeMillis();
+                long specialTimeLeft = instance.getSpecialTime() - System.currentTimeMillis();
 
-            long normalTimeLeft = instance.getNormalTime() - System.currentTimeMillis();
-            long specialTimeLeft = instance.getSpecialTime() - System.currentTimeMillis();
+                List<String> lore = new ArrayList<>();
 
-            List<String> normalMobCoinsLore = new ArrayList<>();
-            Configuration.GUI_MOBCOINS_ITEM_LORE.forEach(string -> normalMobCoinsLore.add(string.replace("%time%", TimeUtil.getFormattedString(normalTimeLeft))));
+                if(itemStack.getItemMeta().hasLore()) {
+                    itemStack.getItemMeta().getLore().forEach(string -> lore.add(string.replace("%coins%", String.valueOf(profile.getMobCoins())).replace("%normaltime%", TimeUtil.getFormattedString(normalTimeLeft)).replace("%specialtime%", TimeUtil.getFormattedString(specialTimeLeft))));
+                }
 
-            ItemStack normalMobCoinsItem = new ItemBuilder(inventory.getItem(Configuration.GUI_MOBCOINS_ITEM_SLOT)).setLore(normalMobCoinsLore).toItemStack();
-            inventory.setItem(Configuration.GUI_MOBCOINS_ITEM_SLOT, normalMobCoinsItem);
+                String name = itemStack.getItemMeta().getDisplayName().replace("%coins%", String.valueOf(profile.getMobCoins())).replace("%normaltime%", TimeUtil.getFormattedString(normalTimeLeft)).replace("%specialtime%", TimeUtil.getFormattedString(specialTimeLeft));
 
-            List<String> specialMobCoinsLore = new ArrayList<>();
-            Configuration.GUI_SPECIAL_MOBCOINS_ITEM_LORE.forEach(string -> specialMobCoinsLore.add(string.replace("%time%", TimeUtil.getFormattedString(specialTimeLeft))));
+                ItemStack formattedItemStack = new ItemBuilder(itemStack).setName(name).setLore(lore).toItemStack();
 
-            ItemStack specialMobCoinsItem = new ItemBuilder(inventory.getItem(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_SLOT)).setLore(specialMobCoinsLore).toItemStack();
-            inventory.setItem(Configuration.GUI_SPECIAL_MOBCOINS_ITEM_SLOT, specialMobCoinsItem);
+                inventory.setItem(integer, formattedItemStack);
+            });
 
             if(Configuration.GUI_OPEN_SOUND_ENABLED) {
                 player.playSound(player.getLocation(), Configuration.GUI_OPEN_SOUND_TYPE, 10, 1);
