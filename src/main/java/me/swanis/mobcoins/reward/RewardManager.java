@@ -171,8 +171,11 @@ public class RewardManager {
 
     public void reloadRewards() {
         saveLastRewards();
+        rewards.clear();
         currentRewards.clear();
         rewardsFile = new YamlFile("rewards", instance);
+        lastRewardsFile = new YamlFile("lastrewards", instance);
+        loadRewards();
         loadLastRewards();
     }
 

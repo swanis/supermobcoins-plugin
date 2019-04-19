@@ -67,8 +67,6 @@ public class Configuration {
         instance.getConfig().getConfigurationSection("gui.decoration").getKeys(false).forEach(string -> {
             String prefix = "gui.decoration." + string;
 
-            System.out.println(prefix);
-
             Material material = Material.valueOf(instance.getConfig().getString(prefix + ".material"));
             String name = StringUtil.color(instance.getConfig().getString(prefix + ".name"));
             List<String> lore = new ArrayList<>();

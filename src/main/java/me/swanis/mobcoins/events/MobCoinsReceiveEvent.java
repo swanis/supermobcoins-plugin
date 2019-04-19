@@ -27,6 +27,10 @@ public class MobCoinsReceiveEvent extends Event implements Cancellable {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return handlers;
