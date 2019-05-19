@@ -6,9 +6,6 @@ import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.utils.YamlFile;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.UUID;
 
 public class YamlStorage implements Storable {
 

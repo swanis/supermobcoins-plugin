@@ -15,6 +15,7 @@ import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
+import me.swanis.mobcoins.utils.MetricsLite;
 import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -39,7 +40,7 @@ public class MobCoins extends JavaPlugin {
     private long normalTime;
     private long specialTime;
     private boolean loaded;
-    private boolean wildstacker;
+    private boolean wildStacker;
 
     @Override
     public void onEnable() {
@@ -58,6 +59,7 @@ public class MobCoins extends JavaPlugin {
         runTimer();
 
         new MobCoinsAPI(this);
+        new MetricsLite(this);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class MobCoins extends JavaPlugin {
 
     private void loadDependencies() {
         if(getServer().getPluginManager().getPlugin("WildStacker") != null) {
-            wildstacker = true;
+            wildStacker = true;
         }
     }
 
@@ -175,8 +177,8 @@ public class MobCoins extends JavaPlugin {
         return inventory;
     }
 
-    public boolean hasWildstacker() {
-        return wildstacker;
+    public boolean hasWildStacker() {
+        return wildStacker;
     }
 
     public ProfileManager getProfileManager() {

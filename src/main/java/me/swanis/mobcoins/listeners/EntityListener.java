@@ -13,11 +13,13 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.Random;
+import java.util.*;
 
 public class EntityListener implements Listener {
 
     private MobCoins instance;
+
+    private Map<Entity, Integer> stackedEntities = new HashMap<>();
 
     public EntityListener(MobCoins instance) {
         this.instance = instance;
@@ -42,25 +44,45 @@ public class EntityListener implements Listener {
 
         Random random = new Random();
 
-        if(instance.hasWildstacker() && Configuration.STACKING_SUPPORT) {
-            int amount = 0;
+        if(instance.hasWildStacker() && Configuration.STACKING_SUPPORT) {
+            if(WildStackerAPI.getStackedEntity(event.getEntity()) != null) {
+                int stackedAmount = WildStackerAPI.getEntityAmount(event.getEntity());
 
-            for (int i = 0; i < WildStackerAPI.getEntityAmount(event.getEntity()); i++) {
-                if(random.nextInt(100) > dropChance.getChance()) continue;
+                if(stackedEntities.containsKey(event.getEntity())) {
+                    int currentAmount = stackedEntities.get(event.getEntity());
 
-                amount++;
+                    if(currentAmount == 2) {
+                        stackedEntities.remove(event.getEntity());
+                    }
+
+                    currentAmount--;
+
+                    stackedEntities.put(event.getEntity(), currentAmount);
+                    return;
+                }
+
+                stackedEntities.put(event.getEntity(), stackedAmount);
+
+                int amount = 0;
+
+                for(int i = 0; i < stackedAmount; i++) {
+                    if(random.nextInt(100) > (dropChance.getChance() - 1)) continue;
+
+                    amount++;
+                }
+
+                if(amount == 0) return;
+
+                MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, amount);
+                instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
+                return;
             }
-
-            if(amount == 0) return;
-
-            MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, amount);
-            instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
-        } else {
-            if(random.nextInt(100) > dropChance.getChance()) return;
-
-            MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
-            instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
         }
+
+        if(random.nextInt(100) > (dropChance.getChance() - 1)) return;
+
+        MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
+        instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
     }
 
     @EventHandler
