@@ -41,4 +41,8 @@ public class ChanceManager {
         dropChances.clear();
         loadChances();
     }
+
+    public Map<EntityType, DropChance> getDropChances() {
+        return dropChances;
+    }
 }

@@ -169,6 +169,10 @@ public class MobCoins extends JavaPlugin {
         }
     }
 
+    public ItemStack getMobCoinItem() {
+        return new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL).setName(Configuration.MOBCOIN_ITEM_NAME).setLore(Configuration.MOBCOIN_ITEM_LORE).toItemStack();
+    }
+
     public Storable getStorage() {
         return storage;
     }

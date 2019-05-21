@@ -46,8 +46,7 @@ public class MobCoinsAPI {
     /*
     Retrieve the mobcoin itemstack
     */
-
     public static ItemStack getMobCoinItem() {
-        return new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL).setName(Configuration.MOBCOIN_ITEM_NAME).setLore(Configuration.MOBCOIN_ITEM_LORE).toItemStack();
+        return instance.getMobCoinItem();
     }
 }
