@@ -60,12 +60,17 @@ mobcoin_item:
   lore:
     - "&3You can use these coins in &b/mobcoins"
     - "&3to purchase stuff"
+format:
+  enabled: false
+  locale: "US"
 mobcoin_normal_shop_update_hours: 24
 mobcoin_special_shop_update_hours: 72
 mobcoins_only_from_naturally_spawned_mods: false
 received_mobcoin_from_mob_message_sent: true
 close_gui_on_buy: true
 stacking_support: false
+disabled_worlds:
+  - "disabledworld"
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"
@@ -93,6 +98,7 @@ SET_MOBCOINS_MESSAGE: "&6%player%&e's mobcoins balance has been set to &6%amount
 YOUR_MOBCOINS_SET_MESSAGE: "&eYour mobcoins balance has been set to &6%amount% &eby &6%player%"
 INVENTORY_FULL_MESSAGE: "&cYour inventory is full"
 INVENTORY_GOT_FILLED_MESSAGE: "&eYour inventory got filled so you could only withdraw &6%amount% &emobcoins"
+AMOUNT_INPUT_TOO_LONG: "&cThat amount input is too long"
 MOBCOINS_HELP_LORE:
   - '&8&m---------------------------'
   - '&3&l(!) Mobcoins Commands:'

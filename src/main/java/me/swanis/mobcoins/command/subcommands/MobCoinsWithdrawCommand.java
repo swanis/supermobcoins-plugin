@@ -40,6 +40,11 @@ public class MobCoinsWithdrawCommand extends PluginCommand {
             return;
         }
 
+        if(args[1].length() > 10) {
+            commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
         int amount = Integer.valueOf(args[1]);
 
         if(amount == 0) {
@@ -83,10 +88,13 @@ public class MobCoinsWithdrawCommand extends PluginCommand {
         }
 
         profile.setMobCoins(profile.getMobCoins() - actualAmount);
+
+        String amountString = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(actualAmount) : String.valueOf(actualAmount);
+
         if(!full) {
-            player.sendMessage(Configuration.WITHDREW_MOBCOINS_MESSAGE.replace("%amount%", String.valueOf(actualAmount)));
+            player.sendMessage(Configuration.WITHDREW_MOBCOINS_MESSAGE.replace("%amount%", amountString));
         } else {
-            player.sendMessage(Configuration.INVENTORY_GOT_FILLED_MESSAGE.replace("%amount%", String.valueOf(actualAmount)));
+            player.sendMessage(Configuration.INVENTORY_GOT_FILLED_MESSAGE.replace("%amount%", amountString));
         }
     }
 }

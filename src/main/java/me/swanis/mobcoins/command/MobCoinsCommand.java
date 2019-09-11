@@ -41,7 +41,7 @@ public class MobCoinsCommand extends PluginCommand {
             }
 
 
-            Inventory inventory = clone(instance.getInventory());
+            Inventory inventory = clone(instance.getInventory(), Configuration.GUI_TITLE);
 
             Configuration.GUI_DECORATION_ITEMS.keySet().forEach(integer -> {
                 ItemStack itemStack = Configuration.GUI_DECORATION_ITEMS.get(integer).clone();
@@ -78,8 +78,8 @@ public class MobCoinsCommand extends PluginCommand {
         Configuration.MOBCOINS_HELP_LORE.forEach(commandSender::sendMessage);
     }
 
-    private Inventory clone(Inventory inventory) {
-        Inventory clone = instance.getServer().createInventory(null, inventory.getSize(), inventory.getTitle());
+    private Inventory clone(Inventory inventory, String title) {
+        Inventory clone = instance.getServer().createInventory(null, inventory.getSize(), title);
         clone.setContents(inventory.getContents());
         return clone;
     }

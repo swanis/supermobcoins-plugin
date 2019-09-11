@@ -8,6 +8,7 @@ import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.profile.Profile;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -19,19 +20,14 @@ public class EntityListener implements Listener {
 
     private MobCoins instance;
 
-    private Map<Entity, Integer> stackedEntities = new HashMap<>();
-
     public EntityListener(MobCoins instance) {
         this.instance = instance;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDeath(EntityDeathEvent event) {
-        if(Configuration.MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS) {
-            if(!event.getEntity().hasMetadata("naturallySpawned")) {
-                return;
-            }
-        }
+        if(Configuration.DISABLED_WORLDS.contains(event.getEntity().getWorld().getName())) return;
+        if(Configuration.MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS && !event.getEntity().hasMetadata("naturallySpawned")) return;
 
         Player killer = event.getEntity().getKiller();
 
@@ -46,23 +42,7 @@ public class EntityListener implements Listener {
 
         if(instance.hasWildStacker() && Configuration.STACKING_SUPPORT) {
             if(WildStackerAPI.getStackedEntity(event.getEntity()) != null) {
-                int stackedAmount = WildStackerAPI.getEntityAmount(event.getEntity());
-
-                if(stackedEntities.containsKey(event.getEntity())) {
-                    int currentAmount = stackedEntities.get(event.getEntity());
-
-                    if(currentAmount == 2) {
-                        stackedEntities.remove(event.getEntity());
-                    }
-
-                    currentAmount--;
-
-                    stackedEntities.put(event.getEntity(), currentAmount);
-                    return;
-                }
-
-                stackedEntities.put(event.getEntity(), stackedAmount);
-
+                int stackedAmount = instance.getStackManager().getStackedEntities().get(event.getEntity());
                 int amount = 0;
 
                 for(int i = 0; i < stackedAmount; i++) {
@@ -83,6 +63,11 @@ public class EntityListener implements Listener {
 
         MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
         instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void postEntityDeath(EntityDeathEvent event) {
+        instance.getStackManager().getStackedEntities().remove(event.getEntity());
     }
 
     @EventHandler

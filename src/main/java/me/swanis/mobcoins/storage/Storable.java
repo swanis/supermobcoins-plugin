@@ -1,13 +1,13 @@
 package me.swanis.mobcoins.storage;
 
-import org.bukkit.entity.Player;
+import java.util.UUID;
 
 public interface Storable {
 
     void init();
 
-    void loadProfile(Player player);
+    void loadProfile(UUID uuid);
 
-    void saveProfile(Player player);
+    void saveProfile(UUID uuid);
 
 }

@@ -26,10 +26,17 @@ public class MobCoinsListener implements Listener {
         Profile profile = event.getProfile();
         Player player = profile.getPlayer();
 
+        if(String.valueOf(event.getAmount()).length() > 10) {
+            player.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
         profile.setMobCoins(profile.getMobCoins() + event.getAmount());
 
         if(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT) {
-            player.sendMessage(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE.replace("%amount%", String.valueOf(event.getAmount())));
+            String amount = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(event.getAmount()) : String.valueOf(event.getAmount());
+
+            player.sendMessage(Configuration.RECEIVED_MOBCOIN_FROM_MOB_MESSAGE.replace("%amount%", amount));
         }
     }
 
@@ -40,17 +47,38 @@ public class MobCoinsListener implements Listener {
         Profile profile = event.getProfile();
         Player player = profile.getPlayer();
 
+        if(String.valueOf(event.getAmount()).length() > 10) {
+            player.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
         profile.setMobCoins(profile.getMobCoins() + event.getAmount());
+
         player.getInventory().setItem(player.getInventory().getHeldItemSlot(), null);
-        player.sendMessage(Configuration.REDEEMED_MOBCOIN_MESSAGE.replace("%amount%", String.valueOf(event.getAmount())));
+
+        String amount = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(event.getAmount()) : String.valueOf(event.getAmount());
+
+        player.sendMessage(Configuration.REDEEMED_MOBCOIN_MESSAGE.replace("%amount%", amount));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMobCoinsShop(MobCoinsShopEvent event) {
         if(event.isCancelled()) return;
 
-        instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), event.getReward().getCommand().replace("%name%", event.getProfile().getPlayer().getName()).replace("%uuid%", event.getProfile().getPlayer().getUniqueId().toString()));
-        event.getProfile().setMobCoins(event.getProfile().getMobCoins() - event.getPrice());
-        event.getProfile().getPlayer().sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", event.getReward().getName()).replace("%amount%", String.valueOf(event.getReward().getPrice())));
+        Profile profile = event.getProfile();
+        Player player = profile.getPlayer();
+
+        if(String.valueOf(event.getReward().getPrice()).length() > 10) {
+            player.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
+        instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), event.getReward().getCommand().replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString()));
+
+        profile.setMobCoins(profile.getMobCoins() - event.getPrice());
+
+        String amount = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(event.getReward().getPrice()) : String.valueOf(event.getReward().getPrice());
+
+        player.sendMessage(Configuration.BOUGHT_REWARD_MESSAGE.replace("%reward%", event.getReward().getName()).replace("%amount%", amount));
     }
 }

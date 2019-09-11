@@ -3,21 +3,18 @@ package me.swanis.mobcoins;
 import me.swanis.mobcoins.chance.ChanceManager;
 import me.swanis.mobcoins.command.MobCoinsCommand;
 import me.swanis.mobcoins.command.subcommands.*;
-import me.swanis.mobcoins.listeners.EntityListener;
-import me.swanis.mobcoins.listeners.InventoryListener;
-import me.swanis.mobcoins.listeners.MobCoinsListener;
-import me.swanis.mobcoins.listeners.PlayerListener;
+import me.swanis.mobcoins.listeners.*;
 import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
-import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
+import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
+import me.swanis.mobcoins.stack.StackManager;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
 import me.swanis.mobcoins.utils.command.CommandManager;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +33,7 @@ public class MobCoins extends JavaPlugin {
     private RewardManager rewardManager;
     private ChanceManager chanceManager;
     private CommandManager commandManager;
+    private StackManager stackManager;
 
     private long normalTime;
     private long specialTime;
@@ -53,7 +51,7 @@ public class MobCoins extends JavaPlugin {
         registerListeners();
         registerPlaceholders();
 
-        getServer().getOnlinePlayers().forEach(storage::loadProfile);
+        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::loadProfile);
         loadInventory();
         rewardManager.loadLastRewards();
         runTimer();
@@ -64,7 +62,7 @@ public class MobCoins extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getServer().getOnlinePlayers().forEach(storage::saveProfile);
+        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::saveProfile);
         rewardManager.saveLastRewards();
     }
 
@@ -89,6 +87,7 @@ public class MobCoins extends JavaPlugin {
         rewardManager = new RewardManager(this);
         chanceManager = new ChanceManager(this);
         commandManager = new CommandManager(this);
+        stackManager = new StackManager();
     }
 
     private void registerCommands() {
@@ -111,6 +110,7 @@ public class MobCoins extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
         getServer().getPluginManager().registerEvents(new MobCoinsListener(this), this);
+        if(wildStacker) getServer().getPluginManager().registerEvents(new WildStackerListener(this), this);
     }
 
     private void registerPlaceholders() {
@@ -119,7 +119,7 @@ public class MobCoins extends JavaPlugin {
         }
 
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlaceholderAPIHook(this).hook();
+            new PlaceholderAPIHook(this).register();
         }
 
         if(getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
@@ -199,6 +199,10 @@ public class MobCoins extends JavaPlugin {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public StackManager getStackManager() {
+        return stackManager;
     }
 
     public long getNormalTime() {

@@ -7,6 +7,8 @@ import me.swanis.mobcoins.utils.YamlFile;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class YamlStorage implements Storable {
 
     private MobCoins instance;
@@ -25,10 +27,10 @@ public class YamlStorage implements Storable {
     }
 
     @Override
-    public void loadProfile(Player player) {
-        String prefix = "Profile." + player.getUniqueId().toString();
+    public void loadProfile(UUID uuid) {
+        String prefix = "Profile." + uuid.toString();
 
-        Profile profile = new Profile(player);
+        Profile profile = new Profile(uuid);
 
         if(config.getConfigurationSection(prefix) == null) {
             instance.getProfileManager().load(profile);
@@ -36,20 +38,24 @@ public class YamlStorage implements Storable {
         }
 
         int mobCoins = config.getInt(prefix + ".mobcoins");
+
         profile.setMobCoins(mobCoins);
+
         instance.getProfileManager().load(profile);
     }
 
     @Override
-    public void saveProfile(Player player) {
-        Profile profile = instance.getProfileManager().getProfile(player);
+    public void saveProfile(UUID uuid) {
+        Profile profile = instance.getProfileManager().getProfile(uuid);
 
         if(profile == null) return;
 
-        String prefix = "Profile." + player.getUniqueId().toString();
+        String prefix = "Profile." + uuid.toString();
 
         config.set(prefix + ".mobcoins", profile.getMobCoins());
+
         file.save();
+
         instance.getProfileManager().unload(profile);
     }
 }

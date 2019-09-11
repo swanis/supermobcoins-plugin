@@ -26,7 +26,7 @@ public class InventoryListener implements Listener {
         Inventory inventory = event.getClickedInventory();
 
         if(inventory == null) return;
-        if(!inventory.getTitle().equals(Configuration.GUI_TITLE)) return;
+        if(!event.getView().getTitle().equals(Configuration.GUI_TITLE)) return;
 
         Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 
@@ -40,25 +40,23 @@ public class InventoryListener implements Listener {
         if(inventory.getItem(event.getSlot()) != null) {
             Reward reward = instance.getRewardManager().getCurrentRewards().values().stream().filter(r -> r.getSlot() == event.getSlot()).findFirst().orElse(null);
 
+            event.setCancelled(true);
+
             if(reward == null) {
-                event.setCancelled(true);
                 return;
             }
 
             if(profile.getMobCoins() < reward.getPrice()) {
-                event.setCancelled(true);
                 player.sendMessage(Configuration.NOT_ENOUGH_MOBCOINS_MESSAGE);
                 return;
             }
 
             MobCoinsShopEvent mobCoinsShopEvent = new MobCoinsShopEvent(profile, reward, reward.getPrice());
             instance.getServer().getPluginManager().callEvent(mobCoinsShopEvent);
-        }
 
-        event.setCancelled(true);
-
-        if(Configuration.CLOSE_GUI_ON_BUY) {
-            closeInventory(player);
+            if(Configuration.CLOSE_GUI_ON_BUY) {
+                closeInventory(player);
+            }
         }
     }
 

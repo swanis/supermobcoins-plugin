@@ -26,12 +26,12 @@ public class MobCoinsTakeCommand extends PluginCommand {
             return;
         }
 
-        if(Bukkit.getPlayerExact(args[1]) == null) {
+        if(instance.getServer().getPlayerExact(args[1]) == null) {
             commandSender.sendMessage(Configuration.PLAYER_NOT_FOUND_MESSAGE.replace("%player%", args[1]));
             return;
         }
 
-        Player target = Bukkit.getPlayerExact(args[1]);
+        Player target = instance.getServer().getPlayerExact(args[1]);
         Profile profile = instance.getProfileManager().getProfile(target.getUniqueId());
 
         if(profile == null) {
@@ -44,6 +44,11 @@ public class MobCoinsTakeCommand extends PluginCommand {
             return;
         }
 
+        if(args[2].length() > 10) {
+            commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
         int amount = Integer.valueOf(args[2]);
 
         if(profile.getMobCoins() < amount) {
@@ -52,7 +57,10 @@ public class MobCoinsTakeCommand extends PluginCommand {
         }
 
         profile.setMobCoins(profile.getMobCoins() - amount);
-        commandSender.sendMessage(Configuration.TOOK_MOBCOINS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%player%", target.getName()));
-        target.sendMessage(Configuration.PLAYER_TOOK_MOBCOINS_MESSAGE.replace("%player%", commandSender.getName()).replace("%amount%", String.valueOf(amount)));
+
+        String amountString = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(amount) : String.valueOf(amount);
+
+        commandSender.sendMessage(Configuration.TOOK_MOBCOINS_MESSAGE.replace("%amount%", amountString).replace("%player%", target.getName()));
+        target.sendMessage(Configuration.PLAYER_TOOK_MOBCOINS_MESSAGE.replace("%player%", commandSender.getName()).replace("%amount%", amountString));
     }
 }

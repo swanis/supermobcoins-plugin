@@ -24,24 +24,27 @@ public class PlayerListener implements Listener {
         this.instance = instance;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        instance.getStorage().loadProfile(player);
+
+        instance.getStorage().loadProfile(player.getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerKick(PlayerKickEvent event) {
+        if(event.isCancelled()) return;
+
         Player player = event.getPlayer();
 
-        instance.getStorage().saveProfile(player);
+        instance.getStorage().saveProfile(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        instance.getStorage().saveProfile(player);
+        instance.getStorage().saveProfile(player.getUniqueId());
     }
 
     @EventHandler

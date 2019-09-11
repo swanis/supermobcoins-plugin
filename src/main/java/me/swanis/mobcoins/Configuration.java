@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.NumberFormat;
 import java.util.*;
 
 public class Configuration {
@@ -21,6 +22,8 @@ public class Configuration {
     public static Material MOBCOIN_ITEM_MATERIAL;
     public static String MOBCOIN_ITEM_NAME;
     public static List<String> MOBCOIN_ITEM_LORE = new ArrayList<>();
+    public static boolean FORMAT_ENABLED;
+    public static NumberFormat FORMAT_NUMBER_FORMAT;
     public static int MOBCOIN_NORMAL_SHOP_UPDATE_HOURS;
     public static int MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS;
     public static boolean GUI_OPEN_SOUND_ENABLED;
@@ -29,6 +32,7 @@ public class Configuration {
     public static boolean RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT;
     public static boolean CLOSE_GUI_ON_BUY;
     public static boolean STACKING_SUPPORT;
+    public static List<String> DISABLED_WORLDS = new ArrayList<>();
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -56,6 +60,7 @@ public class Configuration {
     public static String YOUR_MOBCOINS_SET_MESSAGE;
     public static String INVENTORY_FULL_MESSAGE;
     public static String INVENTORY_GOT_FILLED_MESSAGE;
+    public static String AMOUNT_INPUT_TOO_LONG;
     public static List<String> MOBCOINS_HELP_LORE = new ArrayList<>();
     public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
 
@@ -84,17 +89,26 @@ public class Configuration {
         GUI_FILLER_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.filler.item.name"));
         GUI_FILLER_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.filler.item.durability");
         GUI_OPEN_SOUND_ENABLED = instance.getConfig().getBoolean("gui_open.sound.enabled");
-        GUI_OPEN_SOUND_TYPE = Sounds.valueOf(instance.getConfig().getString("gui_open.sound.type")).bukkitSound();
+
+        try {
+            GUI_OPEN_SOUND_TYPE = Sounds.valueOf(instance.getConfig().getString("gui_open.sound.type")).bukkitSound();
+        } catch (IllegalArgumentException e) {
+            GUI_OPEN_SOUND_TYPE = Sound.valueOf(instance.getConfig().getString("gui_open.sound.type"));
+        }
+
         MOBCOIN_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("mobcoin_item.material"));
         MOBCOIN_ITEM_NAME = StringUtil.color(instance.getConfig().getString("mobcoin_item.name"));
         Configuration.MOBCOIN_ITEM_LORE.clear();
         instance.getConfig().getStringList("mobcoin_item.lore").forEach(string -> Configuration.MOBCOIN_ITEM_LORE.add(StringUtil.color(string)));
+        FORMAT_ENABLED = instance.getConfig().getBoolean("format.enabled");
+        FORMAT_NUMBER_FORMAT = NumberFormat.getNumberInstance(Locale.forLanguageTag(instance.getConfig().getString("format.locale")));
         MOBCOIN_NORMAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_normal_shop_update_hours");
         MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_special_shop_update_hours");
         MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS = instance.getConfig().getBoolean("mobcoins_only_from_naturally_spawned_mods");
         RECEIVED_MOBCOIN_FROM_MOB_MESSAGE_SENT = instance.getConfig().getBoolean("received_mobcoin_from_mob_message_sent");
         CLOSE_GUI_ON_BUY = instance.getConfig().getBoolean("close_gui_on_buy");
         STACKING_SUPPORT = instance.getConfig().getBoolean("stacking_support");
+        instance.getConfig().getStringList("disabled_worlds").forEach(DISABLED_WORLDS::add);
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
@@ -122,6 +136,7 @@ public class Configuration {
         YOUR_MOBCOINS_SET_MESSAGE = StringUtil.color(instance.getConfig().getString("YOUR_MOBCOINS_SET_MESSAGE"));
         INVENTORY_FULL_MESSAGE = StringUtil.color(instance.getConfig().getString("INVENTORY_FULL_MESSAGE"));
         INVENTORY_GOT_FILLED_MESSAGE = StringUtil.color(instance.getConfig().getString("INVENTORY_GOT_FILLED_MESSAGE"));
+        AMOUNT_INPUT_TOO_LONG = StringUtil.color(instance.getConfig().getString("AMOUNT_INPUT_TOO_LONG"));
         MOBCOINS_HELP_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_LORE").forEach(string -> Configuration.MOBCOINS_HELP_LORE.add(StringUtil.color(string)));
         MOBCOINS_HELP_ADMIN_LORE.clear();

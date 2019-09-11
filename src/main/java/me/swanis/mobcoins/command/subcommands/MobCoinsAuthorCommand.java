@@ -7,15 +7,12 @@ import org.bukkit.command.CommandSender;
 
 public class MobCoinsAuthorCommand extends PluginCommand {
 
-    private MobCoins instance;
-
     public MobCoinsAuthorCommand(MobCoins instance) {
         super(instance);
-        this.instance = instance;
     }
 
     @Command(command = "author", subCommand = true, baseCommand = "mobcoins")
     public void onCommand(CommandSender commandSender, String[] args) {
-        commandSender.sendMessage("This server is running SuperMobCoins created by Swanis (https://www.mc-market.org/members/71127/)");
+        commandSender.sendMessage("This server is running SuperMobCoins v2.2 created by Swanis ( https://www.mc-market.org/members/71127/ )");
     }
 }

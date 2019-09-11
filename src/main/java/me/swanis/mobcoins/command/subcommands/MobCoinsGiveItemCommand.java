@@ -29,12 +29,12 @@ public class MobCoinsGiveItemCommand extends PluginCommand {
             return;
         }
 
-        if(Bukkit.getPlayerExact(args[1]) == null) {
+        if(instance.getServer().getPlayerExact(args[1]) == null) {
             commandSender.sendMessage(Configuration.PLAYER_NOT_FOUND_MESSAGE.replace("%player%", args[1]));
             return;
         }
 
-        Player target = Bukkit.getPlayerExact(args[1]);
+        Player target = instance.getServer().getPlayerExact(args[1]);
         Profile profile = instance.getProfileManager().getProfile(target.getUniqueId());
 
         if(profile == null) {
@@ -47,6 +47,11 @@ public class MobCoinsGiveItemCommand extends PluginCommand {
             return;
         }
 
+        if(args[2].length() > 10) {
+            commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
         int amount = Integer.valueOf(args[2]);
 
         ItemStack mobCoinItem = new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL)
@@ -56,7 +61,10 @@ public class MobCoinsGiveItemCommand extends PluginCommand {
                 .toItemStack();
 
         target.getInventory().addItem(mobCoinItem);
-        commandSender.sendMessage(Configuration.GAVE_MOBCOIN_ITEMS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%player%", target.getName()));
-        target.sendMessage(Configuration.RECEIVED_MOBCOIN_ITEMS_MESSAGE.replace("%amount%", String.valueOf(amount)).replace("%sender%", commandSender.getName()));
+
+        String amountString = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(amount) : String.valueOf(amount);
+
+        commandSender.sendMessage(Configuration.GAVE_MOBCOIN_ITEMS_MESSAGE.replace("%amount%", amountString).replace("%player%", target.getName()));
+        target.sendMessage(Configuration.RECEIVED_MOBCOIN_ITEMS_MESSAGE.replace("%amount%", amountString).replace("%sender%", commandSender.getName()));
     }
 }

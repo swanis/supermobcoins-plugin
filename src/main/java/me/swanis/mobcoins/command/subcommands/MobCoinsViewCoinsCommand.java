@@ -29,12 +29,12 @@ public class MobCoinsViewCoinsCommand extends PluginCommand {
             return;
         }
 
-        if(Bukkit.getPlayer(args[1]) == null) {
+        if(instance.getServer().getPlayer(args[1]) == null) {
             commandSender.sendMessage(Configuration.PLAYER_NOT_FOUND_MESSAGE.replace("%player%", args[1]));
             return;
         }
 
-        Player player = Bukkit.getPlayer(args[1]);
+        Player player = instance.getServer().getPlayer(args[1]);
         Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 
         if(profile == null) {
@@ -42,6 +42,13 @@ public class MobCoinsViewCoinsCommand extends PluginCommand {
             return;
         }
 
-        commandSender.sendMessage(Configuration.MOBCOINS_OF_PLAYER_MESSAGE.replace("%player%", player.getName()).replace("%amount%", String.valueOf(profile.getMobCoins())));
+        if(String.valueOf(profile.getMobCoins()).length() > 10) {
+            commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
+            return;
+        }
+
+        String amount = Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(profile.getMobCoins()) : String.valueOf(profile.getMobCoins());
+
+        commandSender.sendMessage(Configuration.MOBCOINS_OF_PLAYER_MESSAGE.replace("%player%", player.getName()).replace("%amount%", amount));
     }
 }
