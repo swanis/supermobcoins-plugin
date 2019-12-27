@@ -24,7 +24,7 @@ public class EntityListener implements Listener {
         this.instance = instance;
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDeath(EntityDeathEvent event) {
         if(Configuration.DISABLED_WORLDS.contains(event.getEntity().getWorld().getName())) return;
         if(Configuration.MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS && !event.getEntity().hasMetadata("naturallySpawned")) return;
@@ -42,7 +42,7 @@ public class EntityListener implements Listener {
 
         if(instance.hasWildStacker() && Configuration.STACKING_SUPPORT) {
             if(WildStackerAPI.getStackedEntity(event.getEntity()) != null) {
-                int stackedAmount = instance.getStackManager().getStackedEntities().get(event.getEntity());
+                int stackedAmount = WildStackerAPI.getEntityAmount(event.getEntity());
                 int amount = 0;
 
                 for(int i = 0; i < stackedAmount; i++) {
@@ -63,11 +63,6 @@ public class EntityListener implements Listener {
 
         MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
         instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void postEntityDeath(EntityDeathEvent event) {
-        instance.getStackManager().getStackedEntities().remove(event.getEntity());
     }
 
     @EventHandler

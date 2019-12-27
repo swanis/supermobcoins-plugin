@@ -12,6 +12,7 @@ Crate:
     - " "
     - "&e[!] &7Use at &e/Warp Crates"
   durability: 0
+  glow: false
   special: false
   slot: 13
 Crate2:
@@ -26,6 +27,7 @@ Crate2:
     - " "
     - "&e[!] &7Use at &e/Warp Crates"
   durability: 0
+  glow: false
   special: false
   slot: 13
 #14
@@ -39,6 +41,7 @@ Diamond:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: false
   slot: 14
 #15
@@ -52,6 +55,7 @@ Emerald:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: false
   slot: 15
 #22
@@ -65,6 +69,7 @@ Tag:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: false
   slot: 22
 #23
@@ -78,19 +83,21 @@ Spawner:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: false
   slot: 23
 #24
 Pet:
   name: "&f&l1x &7&lWolf Pet"
   command: "pet give %name% wolf"
+  price: 10
   material: "SKULL_ITEM"
   amount: 1
   lore:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
-  price: 10
+  glow: false
   special: false
   slot: 24
 
@@ -106,6 +113,7 @@ SuperPickaxe:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: true
   slot: 11
 #20
@@ -119,5 +127,6 @@ Rank:
     - " "
     - "&3&l* &b&lPRICE: &7%price%⛁"
   durability: 0
+  glow: false
   special: true
   slot: 20

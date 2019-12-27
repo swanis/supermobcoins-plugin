@@ -35,15 +35,28 @@ public class RewardManager {
             String name = StringUtil.color(config.getString(string + ".name"));
             String command = config.getString(string + ".command");
             int price = config.getInt(string + ".price");
-            Material material = Material.valueOf(config.getString(string + ".material"));
+
+            Material material = null;
+
+            try {
+                material = Material.valueOf(config.getString(string + ".material"));
+            } catch (IllegalArgumentException e) {
+                try {
+                    material = Material.valueOf("LEGACY_" + config.getString(string + ".material"));
+                } catch (IllegalArgumentException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             int amount =  config.getInt(string + ".amount");
             List<String> lore = new ArrayList<>();
             config.getStringList(string + ".lore").forEach(line -> lore.add(StringUtil.color(line)));
             short durability = (short) config.getInt(string + ".durability");
+            boolean glow = config.getBoolean(string + ".glow");
             boolean special = config.getBoolean(string + ".special");
             int slot = config.getInt(string + ".slot");
 
-            Reward reward = new Reward(string, name, command, price, material, amount, lore, durability, special, slot);
+            Reward reward = new Reward(string, name, command, price, material, amount, lore, durability, glow, special, slot);
             rewards.add(reward);
         });
     }
@@ -62,6 +75,7 @@ public class RewardManager {
             config.set(reward.getConfigKey() + ".amount", reward.getAmount());
             config.set(reward.getConfigKey() + ".lore", reward.getLore());
             config.set(reward.getConfigKey() + ".durability", reward.getDurability());
+            config.set(reward.getConfigKey() + ".glow", reward.isGlow());
             config.set(reward.getConfigKey() + ".special", reward.isSpecial());
             config.set(reward.getConfigKey() + ".slot", reward.getSlot());
         });
@@ -93,6 +107,7 @@ public class RewardManager {
                     .setAmount(reward.getAmount())
                     .setLore(lore)
                     .setDurability(reward.getDurability())
+                    .addGlow(reward.isGlow())
                     .toItemStack();
 
             instance.getInventory().setItem(reward.getSlot(), rewardItem);
@@ -128,6 +143,7 @@ public class RewardManager {
                     .setAmount(reward.getAmount())
                     .setLore(lore)
                     .setDurability(reward.getDurability())
+                    .addGlow(reward.isGlow())
                     .toItemStack();
 
             instance.getInventory().setItem(reward.getSlot(), rewardItem);
@@ -163,6 +179,7 @@ public class RewardManager {
                     .setAmount(reward.getAmount())
                     .setLore(lore)
                     .setDurability(reward.getDurability())
+                    .addGlow(reward.isGlow())
                     .toItemStack();
 
             instance.getInventory().setItem(reward.getSlot(), rewardItem);

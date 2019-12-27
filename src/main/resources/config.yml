@@ -11,6 +11,7 @@ gui:
         - ""
         - "&7&o(( These items will automatically update to new items... ))"
       durability: 0
+      glow: false
       slot: 5
     special_mobcoins_item:
       material: "WATCH"
@@ -21,12 +22,14 @@ gui:
         - ""
         - "&7&o(( These items will automatically update to new items... ))"
       durability: 0
+      glow: false
       slot: 2
     amount_item:
       material: "DOUBLE_PLANT"
       name: "&3You currently have &b%coins% &3mobcoins"
       lore: []
       durability: 0
+      glow: false
       slot: 27
     info_item:
       material: "BOOK"
@@ -43,6 +46,7 @@ gui:
         - "&7&m-------------------------------------"
         - " "
       durability: 0
+      glow: false
       slot: 35
   filler:
     enabled: true
@@ -50,6 +54,7 @@ gui:
       material: "STAINED_GLASS_PANE"
       name: " "
       durability: 15
+      glow: false
 gui_open:
   sound:
     enabled: true

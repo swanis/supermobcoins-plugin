@@ -9,7 +9,6 @@ import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
 import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
-import me.swanis.mobcoins.stack.StackManager;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
@@ -33,7 +32,6 @@ public class MobCoins extends JavaPlugin {
     private RewardManager rewardManager;
     private ChanceManager chanceManager;
     private CommandManager commandManager;
-    private StackManager stackManager;
 
     private long normalTime;
     private long specialTime;
@@ -87,7 +85,6 @@ public class MobCoins extends JavaPlugin {
         rewardManager = new RewardManager(this);
         chanceManager = new ChanceManager(this);
         commandManager = new CommandManager(this);
-        stackManager = new StackManager();
     }
 
     private void registerCommands() {
@@ -110,7 +107,6 @@ public class MobCoins extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
         getServer().getPluginManager().registerEvents(new MobCoinsListener(this), this);
-        if(wildStacker) getServer().getPluginManager().registerEvents(new WildStackerListener(this), this);
     }
 
     private void registerPlaceholders() {
@@ -160,6 +156,7 @@ public class MobCoins extends JavaPlugin {
             ItemStack fillerItem = new ItemBuilder(Configuration.GUI_FILLER_ITEM_MATERIAL)
                     .setName(Configuration.GUI_FILLER_ITEM_NAME)
                     .setDurability(Configuration.GUI_FILLER_ITEM_DURABILITY)
+                    .addGlow(Configuration.GUI_FILLER_ITEM_GLOW)
                     .toItemStack();
 
             for(int i = 0; i < inventory.getSize(); i++) {
@@ -199,10 +196,6 @@ public class MobCoins extends JavaPlugin {
 
     public CommandManager getCommandManager() {
         return commandManager;
-    }
-
-    public StackManager getStackManager() {
-        return stackManager;
     }
 
     public long getNormalTime() {

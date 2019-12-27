@@ -19,6 +19,7 @@ public class Configuration {
     public static Material GUI_FILLER_ITEM_MATERIAL;
     public static String GUI_FILLER_ITEM_NAME;
     public static short GUI_FILLER_ITEM_DURABILITY;
+    public static boolean GUI_FILLER_ITEM_GLOW;
     public static Material MOBCOIN_ITEM_MATERIAL;
     public static String MOBCOIN_ITEM_NAME;
     public static List<String> MOBCOIN_ITEM_LORE = new ArrayList<>();
@@ -72,22 +73,53 @@ public class Configuration {
         instance.getConfig().getConfigurationSection("gui.decoration").getKeys(false).forEach(string -> {
             String prefix = "gui.decoration." + string;
 
-            Material material = Material.valueOf(instance.getConfig().getString(prefix + ".material"));
+            Material material = null;
+
+            try {
+                material = Material.valueOf(instance.getConfig().getString(prefix + ".material"));
+            } catch (IllegalArgumentException e) {
+                try {
+                    if (instance.getConfig().getString(prefix + ".material").equals("STAINED_GLASS_PANE")) {
+                        material = Material.valueOf("GRAY_STAINED_GLASS_PANE");
+                    } else {
+                        material = Material.valueOf("LEGACY_" + instance.getConfig().getString(prefix + ".material"));
+                    }
+                } catch (IllegalArgumentException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             String name = StringUtil.color(instance.getConfig().getString(prefix + ".name"));
             List<String> lore = new ArrayList<>();
             instance.getConfig().getStringList(prefix + ".lore").forEach(string1 -> lore.add(StringUtil.color(string1)));
             short durability = (short) instance.getConfig().getInt(prefix + ".durability");
+            boolean glow = instance.getConfig().getBoolean(prefix + ".glow");
             int slot = instance.getConfig().getInt(prefix + ".slot");
 
-            ItemStack itemStack = new ItemBuilder(material).setName(name).setLore(lore).setDurability(durability).toItemStack();
+            ItemStack itemStack = new ItemBuilder(material).setName(name).setLore(lore).setDurability(durability).addGlow(glow).toItemStack();
 
             GUI_DECORATION_ITEMS.put(slot, itemStack);
         });
 
         GUI_FILLER_ENABLED = instance.getConfig().getBoolean("gui.filler.enabled");
-        GUI_FILLER_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.filler.item.material"));
+
+        try {
+            GUI_FILLER_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("gui.filler.item.material"));
+        } catch (IllegalArgumentException e) {
+            try {
+                if (instance.getConfig().getString("gui.filler.item.material").equals("STAINED_GLASS_PANE")) {
+                    GUI_FILLER_ITEM_MATERIAL = Material.valueOf("GRAY_STAINED_GLASS_PANE");
+                } else {
+                    GUI_FILLER_ITEM_MATERIAL = Material.valueOf("LEGACY_" + instance.getConfig().getString("gui.filler.item.material"));
+                }
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+        }
+
         GUI_FILLER_ITEM_NAME = StringUtil.color(instance.getConfig().getString("gui.filler.item.name"));
         GUI_FILLER_ITEM_DURABILITY = (short) instance.getConfig().getInt("gui.filler.item.durability");
+        GUI_FILLER_ITEM_GLOW = instance.getConfig().getBoolean("gui.filler.item.glow");
         GUI_OPEN_SOUND_ENABLED = instance.getConfig().getBoolean("gui_open.sound.enabled");
 
         try {
@@ -96,7 +128,16 @@ public class Configuration {
             GUI_OPEN_SOUND_TYPE = Sound.valueOf(instance.getConfig().getString("gui_open.sound.type"));
         }
 
-        MOBCOIN_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("mobcoin_item.material"));
+        try {
+            MOBCOIN_ITEM_MATERIAL = Material.valueOf(instance.getConfig().getString("mobcoin_item.material"));
+        } catch (IllegalArgumentException e) {
+            try {
+                MOBCOIN_ITEM_MATERIAL = Material.valueOf("LEGACY_" + instance.getConfig().getString("mobcoin_item.material"));
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+        }
+
         MOBCOIN_ITEM_NAME = StringUtil.color(instance.getConfig().getString("mobcoin_item.name"));
         Configuration.MOBCOIN_ITEM_LORE.clear();
         instance.getConfig().getStringList("mobcoin_item.lore").forEach(string -> Configuration.MOBCOIN_ITEM_LORE.add(StringUtil.color(string)));

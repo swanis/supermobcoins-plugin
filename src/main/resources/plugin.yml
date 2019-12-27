@@ -1,8 +1,9 @@
 main: me.swanis.mobcoins.MobCoins
 name: SuperMobCoins
-version: 2.2
+version: 2.2.3
 author: Swanis
 softdepend: [PlaceholderAPI, MVdWPlaceholderAPI, HolographicDisplays, WildStacker]
+api-version: 1.14
 
 commands:
   mobcoins:
