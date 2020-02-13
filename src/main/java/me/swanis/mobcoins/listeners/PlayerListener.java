@@ -56,7 +56,9 @@ public class PlayerListener implements Listener {
         ItemStack item = event.getItem();
 
         if(item == null) return;
-        if(item.getType() != Configuration.MOBCOIN_ITEM_MATERIAL) return;
+
+        //if(item.getType() != Configuration.MOBCOIN_ITEM_MATERIAL) return; (removed as it screws with 1.14 and 1.15 support)
+
         if(!item.hasItemMeta()) return;
         if(!item.getItemMeta().hasDisplayName()) return;
         if(!item.getItemMeta().getDisplayName().equals(Configuration.MOBCOIN_ITEM_NAME)) return;
