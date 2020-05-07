@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
@@ -56,6 +57,7 @@ public class PlayerListener implements Listener {
         ItemStack item = event.getItem();
 
         if(item == null) return;
+        if(!player.getInventory().getItemInHand().isSimilar(item)) return;
 
         //if(item.getType() != Configuration.MOBCOIN_ITEM_MATERIAL) return; (removed as it screws with 1.14 and 1.15 support)
 
