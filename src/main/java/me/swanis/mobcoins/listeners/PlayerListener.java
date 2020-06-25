@@ -6,6 +6,7 @@ import me.swanis.mobcoins.MobCoinsAPI;
 import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.events.MobCoinsRedeemEvent;
 import me.swanis.mobcoins.profile.Profile;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -16,6 +17,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PlayerListener implements Listener {
 
@@ -65,7 +70,8 @@ public class PlayerListener implements Listener {
         if(!item.getItemMeta().hasDisplayName()) return;
         if(!item.getItemMeta().getDisplayName().equals(Configuration.MOBCOIN_ITEM_NAME)) return;
         if(!item.getItemMeta().hasLore()) return;
-        if(!item.getItemMeta().getLore().equals(Configuration.MOBCOIN_ITEM_LORE)) return;
+        //if(!item.getItemMeta().getLore().equals(Configuration.MOBCOIN_ITEM_LORE)) return;
+        if(!isSimilar(item.getItemMeta().getLore(), Configuration.MOBCOIN_ITEM_LORE)) return;
 
         Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 
@@ -75,5 +81,9 @@ public class PlayerListener implements Listener {
 
         MobCoinsRedeemEvent mobCoinsRedeemEvent = new MobCoinsRedeemEvent(profile, item.getAmount());
         instance.getServer().getPluginManager().callEvent(mobCoinsRedeemEvent);
+    }
+
+    private boolean isSimilar(List<String> first, List<String> second) {
+        return first.size() == second.size() && !first.stream().anyMatch(s -> !first.contains(s));
     }
 }

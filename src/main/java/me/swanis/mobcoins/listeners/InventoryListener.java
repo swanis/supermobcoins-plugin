@@ -27,6 +27,7 @@ public class InventoryListener implements Listener {
 
         if(inventory == null) return;
         if(!event.getView().getTitle().equals(Configuration.GUI_TITLE)) return;
+        if (inventory.getHolder() instanceof Player && ((Player) inventory.getHolder()).getName().equals(player.getName())) return;
 
         Profile profile = instance.getProfileManager().getProfile(player.getUniqueId());
 

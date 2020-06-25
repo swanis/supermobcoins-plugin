@@ -1,0 +1,43 @@
+noperm: "&cYou don't have permission to execute this command"
+tp:
+  usage: "&cUsage: /tp <player> <player>"
+  notify_message: "&3&lSTAFF&r&8» &b%executor% &7teleported to &c%target%"
+  notify_message_offline: "&3&lSTAFF&r&8» &b%executor% &7teleported to &c%target% &8(OFFLINE)"
+  notify_message_others: "&3&lSTAFF&r&8» &b%executor% &7teleported &a%target% &7to &c%target2%"
+  noperm: "&cYou don't have permission to execute this command"
+  nullplayer: "&cThat player is invalid (haven't played before)"
+vanish:
+  noperm: "&cYou don't have permission to execute this command"
+  usage: "&cUsage: /vanish <player>"
+  vanish: "&aYou have been vanished"
+  unvanish: "&aYou have been unvanished"
+  notify:
+    vanish: "&3&lSTAFF &r&8» &b<executor> &7have been vanished"
+    unvanish: "&3&lSTAFF &r&8» &b<executor> &7have been unvanished"
+STAFFCHAT:
+  format: "&3&lSTAFF &r&8» &b%player% &a%message%"
+  usage: "&cUsage: /sc <message>"
+STAFFMODE:
+  switch_on: "&eStaffmode switched &aon"
+  switch_off: "&eStaffmode switched &coff"
+  switch_off_reload: "&eStaffmode switched &coff &7(RELOAD)"
+  vanish_on: "&eVanish &aOn"
+  vanish_off: "&eVanish &cOff"
+  randomtp: "&eYou've been teleported to &a%random_player%"
+  randomtp_error: "&cThere aren't enough players online for this tool"
+  freeze: "&7You have frozen &a%target%"
+  unfreeze: "&7You have unfrozen &a%target%"
+REPORT:
+  Usage: "&cUsage: /report <player> <reason>"
+FREEZE:
+  usage: "&cUsage: /freeze <player>"
+  nullplayer: "&cThat isn't a valid player"
+  freeze: "&7You have frozen &a%target%"
+  unfreeze: "&7You have unfrozen &a%target%"
+  message:
+    - "&7&l------------------------"
+    - "&aThis is a test"
+    - "&aThis is a test"
+    - "&aThis is a test"
+    - "&aThis is a test"
+    - "&7&l------------------------"

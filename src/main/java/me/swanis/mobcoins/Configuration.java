@@ -183,4 +183,20 @@ public class Configuration {
         MOBCOINS_HELP_ADMIN_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_ADMIN_LORE").forEach(string -> Configuration.MOBCOINS_HELP_ADMIN_LORE.add(StringUtil.color(string)));
     }
+
+    private Material getMaterial(String materialName) {
+        Material material = null;
+
+        try {
+            material = Material.valueOf(materialName);
+        } catch (IllegalArgumentException e) {
+            try {
+                material = Material.valueOf("LEGACY_" + materialName);
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return material;
+    }
 }

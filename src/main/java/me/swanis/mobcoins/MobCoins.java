@@ -13,6 +13,7 @@ import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
+import me.swanis.mobcoins.utils.YamlFile;
 import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +54,8 @@ public class MobCoins extends JavaPlugin {
         loadInventory();
         rewardManager.loadLastRewards();
         runTimer();
+
+        new YamlFile("messages", this);
 
         new MobCoinsAPI(this);
         new MetricsLite(this);
