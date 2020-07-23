@@ -27,6 +27,8 @@ public class MobCoinsReloadCommand extends PluginCommand {
         instance.loadInventory();
         instance.getRewardManager().reloadRewards();
         instance.getChanceManager().reloadChances();
+        instance.setNormalTime(System.currentTimeMillis());
+        instance.setSpecialTime(System.currentTimeMillis());
         commandSender.sendMessage("The configuration has been reloaded");
     }
 }

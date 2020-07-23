@@ -1,6 +1,5 @@
 package me.swanis.mobcoins.utils.command;
 
-import com.google.common.collect.Lists;
 import me.swanis.mobcoins.MobCoins;
 
 import java.lang.reflect.Method;

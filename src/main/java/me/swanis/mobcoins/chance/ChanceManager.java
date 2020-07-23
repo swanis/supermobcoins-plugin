@@ -31,7 +31,7 @@ public class ChanceManager {
 
         config.getConfigurationSection("Chance").getKeys(false).forEach(string -> {
             EntityType entityType = EntityType.valueOf(config.getString("Chance." + string + ".type"));
-            int chance = config.getInt("Chance." + string + ".chance");
+            double chance = config.getDouble("Chance." + string + ".chance");
             dropChances.put(entityType, new DropChance(chance));
         });
     }

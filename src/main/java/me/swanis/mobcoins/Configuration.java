@@ -62,6 +62,7 @@ public class Configuration {
     public static String INVENTORY_FULL_MESSAGE;
     public static String INVENTORY_GOT_FILLED_MESSAGE;
     public static String AMOUNT_INPUT_TOO_LONG;
+    public static String CANNOT_PAY_YOURSELF_MESSAGE;
     public static List<String> MOBCOINS_HELP_LORE = new ArrayList<>();
     public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
 
@@ -178,6 +179,7 @@ public class Configuration {
         INVENTORY_FULL_MESSAGE = StringUtil.color(instance.getConfig().getString("INVENTORY_FULL_MESSAGE"));
         INVENTORY_GOT_FILLED_MESSAGE = StringUtil.color(instance.getConfig().getString("INVENTORY_GOT_FILLED_MESSAGE"));
         AMOUNT_INPUT_TOO_LONG = StringUtil.color(instance.getConfig().getString("AMOUNT_INPUT_TOO_LONG"));
+        CANNOT_PAY_YOURSELF_MESSAGE = StringUtil.color(instance.getConfig().getString("CANNOT_PAY_YOURSELF_MESSAGE"));
         MOBCOINS_HELP_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_LORE").forEach(string -> Configuration.MOBCOINS_HELP_LORE.add(StringUtil.color(string)));
         MOBCOINS_HELP_ADMIN_LORE.clear();

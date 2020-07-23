@@ -2,13 +2,13 @@ package me.swanis.mobcoins.chance;
 
 public class DropChance {
 
-    private int chance;
+    private double chance;
 
-    public DropChance(int chance) {
+    public DropChance(double chance) {
         this.chance = chance;
     }
 
-    public int getChance() {
+    public double getChance() {
         return chance;
     }
 }

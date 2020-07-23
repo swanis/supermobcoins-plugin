@@ -55,8 +55,6 @@ public class MobCoins extends JavaPlugin {
         rewardManager.loadLastRewards();
         runTimer();
 
-        new YamlFile("messages", this);
-
         new MobCoinsAPI(this);
         new MetricsLite(this);
     }
@@ -95,6 +93,7 @@ public class MobCoins extends JavaPlugin {
 
         //Subcommands
         commandManager.register(new MobCoinsWithdrawCommand(this));
+        commandManager.register(new MobCoinsPayCommand(this));
         commandManager.register(new MobCoinsViewCoinsCommand(this));
         commandManager.register(new MobCoinsGiveCommand(this));
         commandManager.register(new MobCoinsTakeCommand(this));

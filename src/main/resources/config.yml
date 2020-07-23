@@ -93,8 +93,8 @@ WITHDREW_MOBCOINS_MESSAGE: "&eYou withdrew &6%amount% &emobcoins"
 BOUGHT_REWARD_MESSAGE: "&eYou bought %reward% &efor &6%amount% &emobcoins"
 RECEIVED_MOBCOIN_FROM_MOB_MESSAGE: "&a&l+ %amount%⛁ Mobcoin &7(Mob)"
 REDEEMED_MOBCOIN_MESSAGE: "&eYou redeemed &6%amount% &emobcoins"
-MOBCOIN_NORMAL_SHOP_UPDATED_MESSAGE: "&e(&6&l!&e) The normal mobcoin items in &6/mobcoins &ehas been updated"
-MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE: "&e(&6&l!&e) The special mobcoin items in &6/mobcoins &ehas been updated"
+MOBCOIN_NORMAL_SHOP_UPDATED_MESSAGE: "&e(&6&l!&e) The normal mobcoin items in &6/mobcoins &ehave been updated"
+MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE: "&e(&6&l!&e) The special mobcoin items in &6/mobcoins &ehave been updated"
 MOBCOINS_OF_PLAYER_MESSAGE: "&6%player% &ehas &6%amount% &emobcoins"
 PLAYER_NOT_ENOUGH_MOBCOINS: "&c%player% does not have %amount% mobcoins"
 TOOK_MOBCOINS_MESSAGE: "&eYou took &6%amount% &emobcoins from &6%player%"
@@ -104,16 +104,19 @@ YOUR_MOBCOINS_SET_MESSAGE: "&eYour mobcoins balance has been set to &6%amount% &
 INVENTORY_FULL_MESSAGE: "&cYour inventory is full"
 INVENTORY_GOT_FILLED_MESSAGE: "&eYour inventory got filled so you could only withdraw &6%amount% &emobcoins"
 AMOUNT_INPUT_TOO_LONG: "&cThat amount input is too long"
+CANNOT_PAY_YOURSELF_MESSAGE: "&cYou cannot pay yourself"
 MOBCOINS_HELP_LORE:
   - '&8&m---------------------------'
   - '&3&l(!) Mobcoins Commands:'
   - '&b/mobcoins withdraw <amount>'
+  - '&b/mobcoins pay <player> <amount>'
   - '&b/mobcoins viewcoins <player>'
   - '&8&m---------------------------'
 MOBCOINS_HELP_ADMIN_LORE:
   - '&8&m---------------------------'
   - '&3&l(!) Mobcoins Commands:'
   - '&b/mobcoins withdraw <amount>'
+  - '&b/mobcoins pay <player> <amount>'
   - '&b/mobcoins viewcoins <player>'
   - ''
   - '&3&l(!) Admin Commands:'

@@ -24,7 +24,7 @@ public class MobCoinsCommand extends PluginCommand {
         this.instance = instance;
     }
 
-    @Command(command = "mobcoins", permission = "mobcoins.use", subCommands = {"withdraw", "viewcoins", "give", "take", "set", "giveitem", "refresh", "author", "reload"})
+    @Command(command = "mobcoins", permission = "mobcoins.use", subCommands = {"withdraw", "pay", "viewcoins", "give", "take", "set", "giveitem", "refresh", "author", "reload"})
     public void onCommand(CommandSender commandSender, String[] args) {
         if(args.length < 1) {
             if(!(commandSender instanceof Player)) {

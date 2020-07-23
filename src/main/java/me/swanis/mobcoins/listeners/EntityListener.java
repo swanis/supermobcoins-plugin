@@ -38,15 +38,13 @@ public class EntityListener implements Listener {
 
         if(dropChance == null) return;
 
-        Random random = new Random();
-
         if(instance.hasWildStacker() && Configuration.STACKING_SUPPORT) {
             if(WildStackerAPI.getStackedEntity(event.getEntity()) != null) {
                 int stackedAmount = WildStackerAPI.getEntityAmount(event.getEntity());
                 int amount = 0;
 
                 for(int i = 0; i < stackedAmount; i++) {
-                    if(random.nextInt(100) > (dropChance.getChance() - 1)) continue;
+                    if (Math.random() * 100 > dropChance.getChance()) continue;
 
                     amount++;
                 }
@@ -59,7 +57,7 @@ public class EntityListener implements Listener {
             }
         }
 
-        if(random.nextInt(100) > (dropChance.getChance() - 1)) return;
+        if (Math.random() * 100 > dropChance.getChance()) return;
 
         MobCoinsReceiveEvent mobCoinsReceiveEvent = new MobCoinsReceiveEvent(profile, 1);
         instance.getServer().getPluginManager().callEvent(mobCoinsReceiveEvent);
