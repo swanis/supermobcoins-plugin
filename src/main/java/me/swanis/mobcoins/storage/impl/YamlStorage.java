@@ -4,6 +4,7 @@ import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.utils.YamlFile;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.UUID;
@@ -53,7 +54,9 @@ public class YamlStorage implements Storable {
 
         config.set(prefix + ".mobcoins", profile.getMobCoins());
 
-        file.save();
+        Bukkit.getScheduler().runTaskAsynchronously(instance, () -> {
+            file.save();
+        });
 
         instance.getProfileManager().unload(profile);
     }
