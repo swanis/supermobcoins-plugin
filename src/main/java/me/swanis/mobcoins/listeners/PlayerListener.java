@@ -2,25 +2,17 @@ package me.swanis.mobcoins.listeners;
 
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
-import me.swanis.mobcoins.MobCoinsAPI;
-import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.events.MobCoinsRedeemEvent;
 import me.swanis.mobcoins.profile.Profile;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PlayerListener implements Listener {
 

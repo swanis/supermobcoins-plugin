@@ -5,7 +5,6 @@ import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.utils.YamlFile;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 

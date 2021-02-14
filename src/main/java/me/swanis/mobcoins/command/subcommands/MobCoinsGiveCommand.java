@@ -6,7 +6,6 @@ import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.utils.command.Command;
 import me.swanis.mobcoins.utils.command.PluginCommand;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

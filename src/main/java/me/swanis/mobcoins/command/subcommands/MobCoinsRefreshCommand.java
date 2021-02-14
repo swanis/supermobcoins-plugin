@@ -2,17 +2,9 @@ package me.swanis.mobcoins.command.subcommands;
 
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
-import me.swanis.mobcoins.profile.Profile;
-import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.command.Command;
 import me.swanis.mobcoins.utils.command.PluginCommand;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class MobCoinsRefreshCommand extends PluginCommand {
 

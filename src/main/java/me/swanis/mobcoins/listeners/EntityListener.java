@@ -6,7 +6,6 @@ import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.chance.DropChance;
 import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.profile.Profile;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,8 +14,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import java.util.*;
 
 public class EntityListener implements Listener {
 

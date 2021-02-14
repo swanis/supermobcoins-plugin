@@ -7,8 +7,6 @@ import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.command.Command;
 import me.swanis.mobcoins.utils.command.PluginCommand;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
