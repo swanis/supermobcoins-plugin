@@ -81,6 +81,7 @@ public class MobCoinsWithdrawCommand extends PluginCommand {
             ItemStack mobCoinItem = new ItemBuilder(Configuration.MOBCOIN_ITEM_MATERIAL)
                     .setName(Configuration.MOBCOIN_ITEM_NAME)
                     .setLore(Configuration.MOBCOIN_ITEM_LORE)
+                    .setDurability(Configuration.MOBCOIN_ITEM_DURABILITY)
                     .toItemStack();
 
             player.getInventory().addItem(mobCoinItem);

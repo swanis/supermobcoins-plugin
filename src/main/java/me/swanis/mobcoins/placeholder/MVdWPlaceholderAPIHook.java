@@ -3,6 +3,7 @@ package me.swanis.mobcoins.placeholder;
 import be.maximvdw.placeholderapi.PlaceholderAPI;
 import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
 import be.maximvdw.placeholderapi.PlaceholderReplacer;
+import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.utils.TimeUtil;
@@ -23,7 +24,7 @@ public class MVdWPlaceholderAPIHook {
 
                 if(profile == null) return "null";
 
-                return String.valueOf(profile.getMobCoins());
+                return Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(profile.getMobCoins()) : String.valueOf(profile.getMobCoins());
             }
         });
 

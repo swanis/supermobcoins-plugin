@@ -6,11 +6,13 @@ import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.chance.DropChance;
 import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.profile.Profile;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -37,6 +39,11 @@ public class EntityListener implements Listener {
         DropChance dropChance = instance.getChanceManager().getChance(event.getEntityType());
 
         if(dropChance == null) return;
+        if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent entityEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+
+            if(entityEvent.getDamager().getType() == EntityType.WOLF) return;
+        }
 
         if(instance.hasWildStacker() && Configuration.STACKING_SUPPORT) {
             if(WildStackerAPI.getStackedEntity(event.getEntity()) != null) {

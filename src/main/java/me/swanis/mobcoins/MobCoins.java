@@ -13,7 +13,6 @@ import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
-import me.swanis.mobcoins.utils.YamlFile;
 import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

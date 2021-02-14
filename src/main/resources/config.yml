@@ -65,6 +65,7 @@ mobcoin_item:
   lore:
     - "&3You can use these coins in &b/mobcoins"
     - "&3to purchase stuff"
+  durability: 0
 format:
   enabled: false
   locale: "US"

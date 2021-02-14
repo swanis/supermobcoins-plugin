@@ -23,6 +23,7 @@ public class Configuration {
     public static Material MOBCOIN_ITEM_MATERIAL;
     public static String MOBCOIN_ITEM_NAME;
     public static List<String> MOBCOIN_ITEM_LORE = new ArrayList<>();
+    public static short MOBCOIN_ITEM_DURABILITY;
     public static boolean FORMAT_ENABLED;
     public static NumberFormat FORMAT_NUMBER_FORMAT;
     public static int MOBCOIN_NORMAL_SHOP_UPDATE_HOURS;
@@ -142,6 +143,7 @@ public class Configuration {
         MOBCOIN_ITEM_NAME = StringUtil.color(instance.getConfig().getString("mobcoin_item.name"));
         Configuration.MOBCOIN_ITEM_LORE.clear();
         instance.getConfig().getStringList("mobcoin_item.lore").forEach(string -> Configuration.MOBCOIN_ITEM_LORE.add(StringUtil.color(string)));
+        MOBCOIN_ITEM_DURABILITY = (short) instance.getConfig().getInt("mobcoin_item.durability");
         FORMAT_ENABLED = instance.getConfig().getBoolean("format.enabled");
         FORMAT_NUMBER_FORMAT = NumberFormat.getNumberInstance(Locale.forLanguageTag(instance.getConfig().getString("format.locale")));
         MOBCOIN_NORMAL_SHOP_UPDATE_HOURS = instance.getConfig().getInt("mobcoin_normal_shop_update_hours");

@@ -1,6 +1,7 @@
 package me.swanis.mobcoins.placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.utils.TimeUtil;
@@ -49,7 +50,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
                 if(profile == null) return null;
 
-                return String.valueOf(profile.getMobCoins());
+                return Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(profile.getMobCoins()) : String.valueOf(profile.getMobCoins());
             }
 
             case "normal_time": {

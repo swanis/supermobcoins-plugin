@@ -15,10 +15,6 @@ public class YamlFile {
     public YamlFile(String name, MobCoins instance) {
         file = new File(instance.getDataFolder(), name + ".yml");
 
-        if (new File(instance.getDataFolder().getAbsolutePath() + "/players/" + "uuid").exists()) {
-
-        }
-
         if (!file.exists()) {
             instance.getDataFolder().mkdirs();
             instance.saveResource(name + ".yml", false);
