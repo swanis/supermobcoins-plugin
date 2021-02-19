@@ -66,7 +66,9 @@ public class RewardManager {
 
         config.set("normaltime", instance.getNormalTime());
         config.set("specialtime", instance.getSpecialTime());
+        config.set("rewards", currentRewards.values().stream().map(r -> r.getConfigKey()).collect(Collectors.toList()));
 
+        /*
         currentRewards.values().forEach(reward -> {
             config.set(reward.getConfigKey() + ".name", reward.getName());
             config.set(reward.getConfigKey() + ".command", reward.getCommand());
@@ -79,6 +81,7 @@ public class RewardManager {
             config.set(reward.getConfigKey() + ".special", reward.isSpecial());
             config.set(reward.getConfigKey() + ".slot", reward.getSlot());
         });
+        */
 
         lastRewardsFile.save();
     }
@@ -92,7 +95,7 @@ public class RewardManager {
         instance.setSpecialTime(config.getLong("specialtime"));
         instance.setLoaded(true);
 
-        config.getKeys(false).forEach(string -> {
+        config.getStringList("rewards").forEach(string -> {
             Reward reward = getReward(string);
 
             if(reward == null) return;

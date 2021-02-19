@@ -72,10 +72,12 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        LivingEntity entity = event.getEntity();
+        if(Configuration.MOBCOINS_ONLY_FROM_NATURALLY_SPAWNED_MOBS) {
+            LivingEntity entity = event.getEntity();
 
-        if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) return;
+            if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) return;
 
-        entity.setMetadata("naturallySpawned", new FixedMetadataValue(instance, true));
+            entity.setMetadata("naturallySpawned", new FixedMetadataValue(instance, true));
+        }
     }
 }
