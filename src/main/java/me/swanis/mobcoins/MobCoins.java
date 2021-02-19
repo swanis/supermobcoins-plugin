@@ -60,7 +60,7 @@ public class MobCoins extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::saveProfile);
+        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::saveProfileSync);
         rewardManager.saveLastRewards();
     }
 

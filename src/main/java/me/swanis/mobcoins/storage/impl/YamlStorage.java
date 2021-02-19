@@ -45,6 +45,21 @@ public class YamlStorage implements Storable {
     }
 
     @Override
+    public void saveProfileSync(UUID uuid) {
+        Profile profile = instance.getProfileManager().getProfile(uuid);
+
+        if(profile == null) return;
+
+        String prefix = "Profile." + uuid.toString();
+
+        config.set(prefix + ".mobcoins", profile.getMobCoins());
+
+        file.save();
+
+        instance.getProfileManager().unload(profile);
+    }
+
+    @Override
     public void saveProfile(UUID uuid) {
         Profile profile = instance.getProfileManager().getProfile(uuid);
 
