@@ -10,6 +10,6 @@ public interface Storable {
 
     void saveProfile(UUID uuid);
 
-    void saveProfileSync(UUID uuid)
+    void saveProfileSync(UUID uuid);
 
 }
