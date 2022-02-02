@@ -14,8 +14,6 @@ public abstract class PluginCommand implements CommandExecutor {
 
     private String command;
     private String permission;
-    private boolean subCommand;
-    private String[] subCommands;
 
     public PluginCommand(MobCoins instance) {
         this.instance = instance;
@@ -24,19 +22,16 @@ public abstract class PluginCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command cmd, String string, String[] args) {
         if(args.length > 0) {
-            for(String subCommand : subCommands) {
-                if(args[0].equalsIgnoreCase(subCommand)) {
-                    PluginCommand pluginCommand = instance.getCommandManager().getCommand(command + "." + subCommand);
-                    if(pluginCommand != null) {
-                        if(!pluginCommand.permission.equals("") && !commandSender.hasPermission(pluginCommand.permission)) {
-                            commandSender.sendMessage(Configuration.NO_PERMISSION_MESSAGE);
-                            return true;
-                        }
+            PluginCommand pluginCommand = instance.getCommandManager().getCommand(command + "." + args[0].toLowerCase());
 
-                        pluginCommand.onCommand(commandSender, args);
-                        return true;
-                    }
+            if(pluginCommand != null) {
+                if(!pluginCommand.permission.equals("") && !commandSender.hasPermission(pluginCommand.permission)) {
+                    commandSender.sendMessage(Configuration.NO_PERMISSION_MESSAGE);
+                    return true;
                 }
+
+                pluginCommand.onCommand(commandSender, args);
+                return true;
             }
         }
 
@@ -57,13 +52,5 @@ public abstract class PluginCommand implements CommandExecutor {
 
     public void setPermission(String permission) {
         this.permission = permission;
-    }
-
-    public void setSubCommand(boolean subCommand) {
-        this.subCommand = subCommand;
-    }
-
-    public void setSubCommands(String[] subCommands) {
-        this.subCommands = subCommands;
     }
 }

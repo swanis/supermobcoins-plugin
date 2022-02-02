@@ -15,9 +15,9 @@ public class MobCoinsShopEvent extends Event implements Cancellable {
 
     private Profile profile;
     private Reward reward;
-    private int price;
+    private long price;
 
-    public MobCoinsShopEvent(Profile profile, Reward reward, int price) {
+    public MobCoinsShopEvent(Profile profile, Reward reward, long price) {
         this.profile = profile;
         this.reward = reward;
         this.price = price;
@@ -31,11 +31,11 @@ public class MobCoinsShopEvent extends Event implements Cancellable {
         return reward;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

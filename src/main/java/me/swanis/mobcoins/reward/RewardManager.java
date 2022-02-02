@@ -33,7 +33,7 @@ public class RewardManager {
 
         config.getKeys(false).forEach(string -> {
             String name = StringUtil.color(config.getString(string + ".name"));
-            String command = config.getString(string + ".command");
+            List<String> commands = config.getStringList(string + ".commands");
             int price = config.getInt(string + ".price");
 
             Material material = null;
@@ -56,7 +56,7 @@ public class RewardManager {
             boolean special = config.getBoolean(string + ".special");
             int slot = config.getInt(string + ".slot");
 
-            Reward reward = new Reward(string, name, command, price, material, amount, lore, durability, glow, special, slot);
+            Reward reward = new Reward(string, name, commands, price, material, amount, lore, durability, glow, special, slot);
             rewards.add(reward);
         });
     }
@@ -67,21 +67,6 @@ public class RewardManager {
         config.set("normaltime", instance.getNormalTime());
         config.set("specialtime", instance.getSpecialTime());
         config.set("rewards", currentRewards.values().stream().map(r -> r.getConfigKey()).collect(Collectors.toList()));
-
-        /*
-        currentRewards.values().forEach(reward -> {
-            config.set(reward.getConfigKey() + ".name", reward.getName());
-            config.set(reward.getConfigKey() + ".command", reward.getCommand());
-            config.set(reward.getConfigKey() + ".price", reward.getPrice());
-            config.set(reward.getConfigKey() + ".material", reward.getMaterial().name());
-            config.set(reward.getConfigKey() + ".amount", reward.getAmount());
-            config.set(reward.getConfigKey() + ".lore", reward.getLore());
-            config.set(reward.getConfigKey() + ".durability", reward.getDurability());
-            config.set(reward.getConfigKey() + ".glow", reward.isGlow());
-            config.set(reward.getConfigKey() + ".special", reward.isSpecial());
-            config.set(reward.getConfigKey() + ".slot", reward.getSlot());
-        });
-        */
 
         lastRewardsFile.save();
     }

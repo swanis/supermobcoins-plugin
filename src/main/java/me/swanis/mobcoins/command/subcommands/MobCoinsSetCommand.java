@@ -43,12 +43,12 @@ public class MobCoinsSetCommand extends PluginCommand {
             return;
         }
 
-        if(args[2].length() > 10) {
+        if(args[2].length() > 9) {
             commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
             return;
         }
 
-        int amount = Integer.valueOf(args[2]);
+        long amount = Long.valueOf(args[2]);
 
         profile.setMobCoins(amount);
 

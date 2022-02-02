@@ -21,9 +21,11 @@ public class YamlStorage implements Storable {
     }
 
     @Override
-    public void init() {
+    public boolean init() {
         file = new YamlFile("profiles", instance);
         config = file.getConfig();
+
+        return true;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class YamlStorage implements Storable {
             return;
         }
 
-        int mobCoins = config.getInt(prefix + ".mobcoins");
+        long mobCoins = config.getLong(prefix + ".mobcoins");
 
         profile.setMobCoins(mobCoins);
 

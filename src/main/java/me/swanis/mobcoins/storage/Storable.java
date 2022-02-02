@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface Storable {
 
-    void init();
+    boolean init();
 
     void loadProfile(UUID uuid);
 

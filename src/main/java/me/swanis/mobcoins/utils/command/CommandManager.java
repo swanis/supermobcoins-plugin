@@ -27,14 +27,16 @@ public class CommandManager {
 
         pluginCommand.setCommand(command.command());
         pluginCommand.setPermission(command.permission());
-        pluginCommand.setSubCommand(command.subCommand());
-        pluginCommand.setSubCommands(command.subCommands());
 
         if(!command.subCommand()) {
             commands.put(command.command().toLowerCase(), pluginCommand);
             instance.getCommand(command.command()).setExecutor(pluginCommand);
         } else {
             commands.put(command.baseCommand().toLowerCase() + "." + command.command().toLowerCase(), pluginCommand);
+
+            for (int i = 0; i < command.aliases().length; i++) {
+                commands.put(command.baseCommand().toLowerCase() + "." + command.aliases()[i].toLowerCase(), pluginCommand);
+            }
         }
     }
 

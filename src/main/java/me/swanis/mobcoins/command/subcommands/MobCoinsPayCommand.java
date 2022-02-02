@@ -62,12 +62,12 @@ public class MobCoinsPayCommand extends PluginCommand {
             return;
         }
 
-        if(args[2].length() > 10) {
+        if(args[2].length() > 9) {
             player.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
             return;
         }
 
-        int amount = Integer.valueOf(args[2]);
+        long amount = Long.valueOf(args[2]);
 
         if (profile.getMobCoins() < amount) {
             player.sendMessage(Configuration.NOT_ENOUGH_MOBCOINS_MESSAGE);

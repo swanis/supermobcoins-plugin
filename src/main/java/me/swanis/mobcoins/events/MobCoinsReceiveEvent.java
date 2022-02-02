@@ -12,9 +12,9 @@ public class MobCoinsReceiveEvent extends Event implements Cancellable {
     private boolean isCancelled;
 
     private Profile profile;
-    private int amount;
+    private long amount;
 
-    public MobCoinsReceiveEvent(Profile profile, int amount) {
+    public MobCoinsReceiveEvent(Profile profile, long amount) {
         this.profile = profile;
         this.amount = amount;
     }
@@ -23,11 +23,11 @@ public class MobCoinsReceiveEvent extends Event implements Cancellable {
         return profile;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 

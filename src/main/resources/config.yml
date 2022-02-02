@@ -1,3 +1,11 @@
+mysql:
+  enabled: false
+  host: "localhost"
+  port: 3306
+  database: "test"
+  user: "root"
+  password: ""
+
 gui:
   title: "&8&lMOB COINS"
   rows: 4

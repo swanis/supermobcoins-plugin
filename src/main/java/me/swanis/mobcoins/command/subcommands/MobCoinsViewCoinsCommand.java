@@ -17,7 +17,7 @@ public class MobCoinsViewCoinsCommand extends PluginCommand {
         this.instance = instance;
     }
 
-    @Command(command = "viewcoins", permission = "mobcoins.viewcoins", subCommand = true, baseCommand = "mobcoins")
+    @Command(command = "viewcoins", permission = "mobcoins.viewcoins", subCommand = true, baseCommand = "mobcoins", aliases = "balance")
     public void onCommand(CommandSender commandSender, String[] args) {
         if(args.length < 2) {
             commandSender.sendMessage(Configuration.USAGE_MESSAGE.replace("%usage%", "/mobcoins viewcoins <player>"));
@@ -34,11 +34,6 @@ public class MobCoinsViewCoinsCommand extends PluginCommand {
 
         if(profile == null) {
             commandSender.sendMessage(Configuration.PROFILE_NOT_FOUND_MESSAGE.replace("%profile%", player.getUniqueId().toString()));
-            return;
-        }
-
-        if(String.valueOf(profile.getMobCoins()).length() > 10) {
-            commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
             return;
         }
 

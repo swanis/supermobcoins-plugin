@@ -10,10 +10,13 @@ import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
+import me.swanis.mobcoins.storage.impl.MySQLStorage;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
 import me.swanis.mobcoins.utils.command.CommandManager;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,31 +40,42 @@ public class MobCoins extends JavaPlugin {
     private long specialTime;
     private boolean loaded;
     private boolean wildStacker;
+    private boolean forceDisable;
 
     @Override
     public void onEnable() {
         loadConfiguration();
-        loadStorage();
-        loadDependencies();
 
-        registerManagers();
-        registerCommands();
-        registerListeners();
-        registerPlaceholders();
+        if (loadStorage()) {
+            loadDependencies();
 
-        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::loadProfile);
-        loadInventory();
-        rewardManager.loadLastRewards();
-        runTimer();
+            registerManagers();
+            registerCommands();
+            registerListeners();
+            registerPlaceholders();
 
-        new MobCoinsAPI(this);
-        new MetricsLite(this);
+            getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::loadProfile);
+            loadInventory();
+            rewardManager.loadLastRewards();
+            runTimer();
+
+            new MobCoinsAPI(this);
+            new MetricsLite(this);
+        } else {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Failed to establish MySQL connection, disabling SuperMobCoins...");
+
+            forceDisable = true;
+
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
     }
 
     @Override
     public void onDisable() {
-        getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::saveProfile);
-        rewardManager.saveLastRewards();
+        if (!forceDisable) {
+            getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::saveProfile);
+            rewardManager.saveLastRewards();
+        }
     }
 
     private void loadConfiguration() {
@@ -69,9 +83,14 @@ public class MobCoins extends JavaPlugin {
         new Configuration(this);
     }
 
-    private void loadStorage() {
-        storage = new YamlStorage(this);
-        storage.init();
+    private boolean loadStorage() {
+        if (Configuration.MYSQL_ENABLED) {
+            storage = new MySQLStorage(this);
+        } else {
+            storage = new YamlStorage(this);
+        }
+
+        return storage.init();
     }
 
     private void loadDependencies() {

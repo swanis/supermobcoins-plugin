@@ -26,7 +26,7 @@ public class MobCoinsListener implements Listener {
         Profile profile = event.getProfile();
         Player player = profile.getPlayer();
 
-        if(String.valueOf(event.getAmount()).length() > 10) {
+        if(String.valueOf(event.getAmount()).length() > 19) {
             player.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
             return;
         }
@@ -73,7 +73,7 @@ public class MobCoinsListener implements Listener {
             return;
         }
 
-        instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), event.getReward().getCommand().replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString()));
+        event.getReward().getCommands().forEach(command -> instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), command.replace("%name%", player.getName()).replace("%uuid%", player.getUniqueId().toString())));
 
         profile.setMobCoins(profile.getMobCoins() - event.getPrice());
 

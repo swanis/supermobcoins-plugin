@@ -12,6 +12,12 @@ import java.util.*;
 
 public class Configuration {
 
+    public static boolean MYSQL_ENABLED;
+    public static String MYSQL_HOST;
+    public static int MYSQL_PORT;
+    public static String MYSQL_DATABASE;
+    public static String MYSQL_USER;
+    public static String MYSQL_PASSWORD;
     public static String GUI_TITLE;
     public static int GUI_ROWS;
     public static Map<Integer, ItemStack> GUI_DECORATION_ITEMS = new HashMap();
@@ -68,6 +74,13 @@ public class Configuration {
     public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
 
     public Configuration(MobCoins instance) {
+        MYSQL_ENABLED = instance.getConfig().getBoolean("mysql.enabled");
+        MYSQL_HOST = instance.getConfig().getString("mysql.host");
+        MYSQL_PORT = instance.getConfig().getInt("mysql.port");
+        MYSQL_DATABASE = instance.getConfig().getString("mysql.database");
+        MYSQL_USER = instance.getConfig().getString("mysql.user");
+        MYSQL_PASSWORD = instance.getConfig().getString("mysql.password");
+
         GUI_TITLE = StringUtil.color(instance.getConfig().getString("gui.title"));
         GUI_ROWS =  instance.getConfig().getInt("gui.rows");
 

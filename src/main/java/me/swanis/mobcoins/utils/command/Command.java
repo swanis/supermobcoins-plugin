@@ -13,4 +13,5 @@ public @interface Command {
     boolean subCommand() default false;
     String[] subCommands() default {};
     String baseCommand() default "";
+    String[] aliases() default {};
 }

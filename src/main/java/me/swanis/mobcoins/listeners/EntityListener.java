@@ -36,7 +36,7 @@ public class EntityListener implements Listener {
         if(killer == null) return;
 
         Profile profile = instance.getProfileManager().getProfile(killer.getUniqueId());
-        DropChance dropChance = instance.getChanceManager().getChance(event.getEntityType());
+        DropChance dropChance = event.getEntityType() == EntityType.SKELETON && ((Skeleton) event.getEntity()).getSkeletonType() == Skeleton.SkeletonType.WITHER ? instance.getChanceManager().getChance("WITHER_SKELETON") : instance.getChanceManager().getChance(event.getEntityType().name());
 
         if(dropChance == null) return;
         if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {

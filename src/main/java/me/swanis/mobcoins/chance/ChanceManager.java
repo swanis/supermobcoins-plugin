@@ -13,7 +13,7 @@ public class ChanceManager {
     private MobCoins instance;
 
     private YamlFile chancesFile;
-    private Map<EntityType, DropChance> dropChances = new HashMap<>();
+    private Map<String, DropChance> dropChances = new HashMap<>();
 
     public ChanceManager(MobCoins instance) {
         this.instance = instance;
@@ -22,7 +22,7 @@ public class ChanceManager {
         loadChances();
     }
 
-    public DropChance getChance(EntityType entityType) {
+    public DropChance getChance(String entityType) {
         return dropChances.get(entityType);
     }
 
@@ -30,9 +30,9 @@ public class ChanceManager {
         FileConfiguration config = chancesFile.getConfig();
 
         config.getConfigurationSection("Chance").getKeys(false).forEach(string -> {
-            EntityType entityType = EntityType.valueOf(config.getString("Chance." + string + ".type"));
             double chance = config.getDouble("Chance." + string + ".chance");
-            dropChances.put(entityType, new DropChance(chance));
+
+            dropChances.put(config.getString("Chance." + string + ".type").toUpperCase(), new DropChance(chance));
         });
     }
 
@@ -42,7 +42,7 @@ public class ChanceManager {
         loadChances();
     }
 
-    public Map<EntityType, DropChance> getDropChances() {
+    public Map<String, DropChance> getDropChances() {
         return dropChances;
     }
 }
