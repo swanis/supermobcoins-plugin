@@ -3,10 +3,12 @@ package me.swanis.mobcoins;
 import me.swanis.mobcoins.chance.ChanceManager;
 import me.swanis.mobcoins.command.MobCoinsCommand;
 import me.swanis.mobcoins.command.subcommands.*;
-import me.swanis.mobcoins.listeners.*;
+import me.swanis.mobcoins.listeners.EntityListener;
+import me.swanis.mobcoins.listeners.InventoryListener;
+import me.swanis.mobcoins.listeners.MobCoinsListener;
+import me.swanis.mobcoins.listeners.PlayerListener;
 import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
-import me.swanis.mobcoins.placeholder.MVdWPlaceholderAPIHook;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
@@ -130,10 +132,6 @@ public class MobCoins extends JavaPlugin {
     }
 
     private void registerPlaceholders() {
-        if(getServer().getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-            new MVdWPlaceholderAPIHook(this).hook();
-        }
-
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderAPIHook(this).register();
         }

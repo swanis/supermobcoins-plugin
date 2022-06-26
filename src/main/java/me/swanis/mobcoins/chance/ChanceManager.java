@@ -3,7 +3,6 @@ package me.swanis.mobcoins.chance;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.utils.YamlFile;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
 import java.util.Map;

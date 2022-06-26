@@ -6,11 +6,7 @@ import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.storage.Storable;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
-import javax.sql.DataSource;
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -2,25 +2,20 @@ package me.swanis.mobcoins.listeners;
 
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
-import me.swanis.mobcoins.MobCoinsAPI;
-import me.swanis.mobcoins.events.MobCoinsReceiveEvent;
 import me.swanis.mobcoins.events.MobCoinsRedeemEvent;
 import me.swanis.mobcoins.profile.Profile;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PlayerListener implements Listener {
 
@@ -37,16 +32,14 @@ public class PlayerListener implements Listener {
         instance.getStorage().loadProfile(player.getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerKick(PlayerKickEvent event) {
-        if(event.isCancelled()) return;
-
         Player player = event.getPlayer();
 
         instance.getStorage().saveProfile(player.getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 

@@ -5,7 +5,6 @@ import me.swanis.mobcoins.reward.Reward;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 
 public class MobCoinsShopEvent extends Event implements Cancellable {
 

@@ -3,7 +3,6 @@ package me.swanis.mobcoins.utils.command;
 
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
-import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
