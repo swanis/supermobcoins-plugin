@@ -49,7 +49,7 @@ public class YamlStorage implements Storable {
     public void saveProfile(UUID uuid) {
         Profile profile = instance.getProfileManager().getProfile(uuid);
 
-        if(profile == null) return;
+        if (profile == null) return;
 
         String prefix = "Profile." + uuid.toString();
 
@@ -58,5 +58,14 @@ public class YamlStorage implements Storable {
         file.save();
 
         instance.getProfileManager().unload(profile);
+    }
+
+    @Override
+    public void set(UUID uuid, long mobCoins) {
+        String prefix = "Profile." + uuid.toString();
+
+        config.set(prefix + ".mobcoins", mobCoins);
+
+        file.save();
     }
 }

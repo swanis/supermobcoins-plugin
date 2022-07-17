@@ -70,13 +70,25 @@ public class MySQLStorage implements Storable {
         Profile profile = instance.getProfileManager().getProfile(uuid);
 
         if (profile == null) return;
-        if (profile.getMobCoins() == 0) return;
 
         String sql = "REPLACE supermobcoins(uuid, mobcoins) VALUES (?, ?);";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, uuid.toString());
             stmt.setLong(2, profile.getMobCoins());
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void set(UUID uuid, long mobCoins) {
+        String sql = "REPLACE supermobcoins(uuid, mobcoins) VALUES (?, ?);";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, uuid.toString());
+            stmt.setLong(2, mobCoins);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();

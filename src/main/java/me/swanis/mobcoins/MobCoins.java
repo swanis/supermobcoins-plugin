@@ -122,6 +122,7 @@ public class MobCoins extends JavaPlugin {
         commandManager.register(new MobCoinsRefreshCommand(this));
         commandManager.register(new MobCoinsAuthorCommand(this));
         commandManager.register(new MobCoinsReloadCommand(this));
+        commandManager.register(new MobCoinsMigrateCommand(this));
     }
 
     private void registerListeners() {

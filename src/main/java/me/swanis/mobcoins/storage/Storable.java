@@ -10,4 +10,5 @@ public interface Storable {
 
     void saveProfile(UUID uuid);
 
+    void set(UUID uuid, long mobCoins);
 }
