@@ -35,7 +35,7 @@ public class MySQLStorage implements Storable {
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
-        } catch (SQLException e) {;
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

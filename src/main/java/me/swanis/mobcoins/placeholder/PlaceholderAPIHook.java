@@ -4,6 +4,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
+import me.swanis.mobcoins.utils.FormatUtil;
 import me.swanis.mobcoins.utils.TimeUtil;
 import org.bukkit.entity.Player;
 
@@ -42,15 +43,23 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, String params) {
-        if(player == null) return null;
+        if (player == null) return null;
 
         switch(params) {
             case "mobcoins": {
                 Profile profile = instance.getProfileManager().getProfile(player);
 
-                if(profile == null) return null;
+                if (profile == null) return null;
 
                 return Configuration.FORMAT_ENABLED ? Configuration.FORMAT_NUMBER_FORMAT.format(profile.getMobCoins()) : String.valueOf(profile.getMobCoins());
+            }
+
+            case "mobcoins_formatted": {
+                Profile profile = instance.getProfileManager().getProfile(player);
+
+                if (profile == null) return null;
+
+                return FormatUtil.format(profile.getMobCoins());
             }
 
             case "normal_time": {
