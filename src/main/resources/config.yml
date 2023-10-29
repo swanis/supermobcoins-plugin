@@ -77,6 +77,7 @@ mobcoin_item:
 format:
   enabled: false
   locale: "US"
+mobcoin_top_update_delay: 5
 mobcoin_normal_shop_update_hours: 24
 mobcoin_special_shop_update_hours: 72
 mobcoins_only_from_naturally_spawned_mods: false
