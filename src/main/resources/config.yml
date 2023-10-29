@@ -137,3 +137,12 @@ MOBCOINS_HELP_ADMIN_LORE:
   - '&b/mobcoins refresh <category>'
   - '&b/mobcoins reload'
   - '&8&m---------------------------'
+MOBCOINS_TOP_PER_PAGE: 10
+MOBCOINS_TOP_MESSAGE:
+  - '&8&m---------------------------'
+  - '&3&lMobcoins top: &r&b%date%'
+  - '&6'
+  - "&f&L%number%. &r&b%players%: &3%mobcoins%"
+  - '&6'
+  - 'Page: %pages%'
+  - '&8&m---------------------------'

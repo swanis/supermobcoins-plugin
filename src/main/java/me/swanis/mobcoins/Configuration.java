@@ -73,6 +73,7 @@ public class Configuration {
     public static String CANNOT_PAY_YOURSELF_MESSAGE;
     public static List<String> MOBCOINS_HELP_LORE = new ArrayList<>();
     public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
+    public static List<String> MOBCOINS_TOP_MESSAGE = new ArrayList<>();
 
     public Configuration(MobCoins instance) {
         MYSQL_ENABLED = instance.getConfig().getBoolean("mysql.enabled");
@@ -201,6 +202,8 @@ public class Configuration {
         instance.getConfig().getStringList("MOBCOINS_HELP_LORE").forEach(string -> Configuration.MOBCOINS_HELP_LORE.add(StringUtil.color(string)));
         MOBCOINS_HELP_ADMIN_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_ADMIN_LORE").forEach(string -> Configuration.MOBCOINS_HELP_ADMIN_LORE.add(StringUtil.color(string)));
+        MOBCOINS_TOP_MESSAGE.clear();
+        instance.getConfig().getStringList("MOBCOINS_TOP_MESSAGE").forEach(s -> Configuration.MOBCOINS_TOP_MESSAGE.add(StringUtil.color(s)));
     }
 
     private Material getMaterial(String materialName) {

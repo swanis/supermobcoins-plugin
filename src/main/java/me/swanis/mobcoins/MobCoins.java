@@ -26,8 +26,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.yaml.snakeyaml.Yaml;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MobCoins extends JavaPlugin {
@@ -51,6 +52,7 @@ public class MobCoins extends JavaPlugin {
     private boolean forceDisable;
 
     private ArrayList<PlayerProfile> MobCoinsTop = new ArrayList<>();
+    private String formatDate;
 
     @Override
     public void onEnable() {
@@ -68,7 +70,7 @@ public class MobCoins extends JavaPlugin {
             loadInventory();
             rewardManager.loadLastRewards();
             runTimer();
-            //runMobCoinsTopTimer();
+            runMobCoinsTopTimer();
 
             new MobCoinsAPI(this);
             new MetricsLite(this);
@@ -182,30 +184,26 @@ public class MobCoins extends JavaPlugin {
 
         // Delay in minutes
         long delay = Configuration.MOBCOIN_TOP_UPDATE_DELAY * 20 * 60;
-        ;
-        YamlFile targetFile = new YamlFile("profiles", this);
-        targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
-            MobCoinsTop.add(new PlayerProfile(UUID.fromString(player), targetFile.getConfig().getLong("Profile." + player + ".mobcoins")));
-        });
 
-        for (Profile profile : this.getProfileManager().getProfiles()) {
-            for (PlayerProfile existingProfile : MobCoinsTop) {
-                if (existingProfile.getUUID().equals(profile.getUUID())) {
-                    existingProfile.setTokens(profile.getMobCoins());
-                }
-            }
-        }
-        Arrays.sort(MobCoinsTop);
-
-
-
-        targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
-            Long value = targetFile.getConfig().getLong("Profile." + player + ".mobcoins");
-            System.out.println(value);
-        });
         new BukkitRunnable() {
             public void run() {
+                YamlFile targetFile = new YamlFile("profiles", MobCoins.this);
+                targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
+                    MobCoinsTop.add(new PlayerProfile(UUID.fromString(player), targetFile.getConfig().getLong("Profile." + player + ".mobcoins")));
+                });
 
+                for (Profile profile : MobCoins.this.getProfileManager().getProfiles()) {
+                    for (PlayerProfile existingProfile : MobCoinsTop) {
+                        if (existingProfile.getUUID().equals(profile.getUUID())) {
+                            existingProfile.setTokens(profile.getMobCoins());
+                        }
+                    }
+                }
+
+                MobCoinsTop.sort(Collections.reverseOrder());
+                LocalDateTime time = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                formatDate = time.format(formatter);
             }
         }.runTaskTimerAsynchronously(this, 0L, delay);
     }
@@ -278,4 +276,8 @@ public class MobCoins extends JavaPlugin {
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
+
+    public ArrayList<PlayerProfile> getMobCoinsTop() { return this.MobCoinsTop; }
+
+    public String getDate() { return formatDate; }
 }
