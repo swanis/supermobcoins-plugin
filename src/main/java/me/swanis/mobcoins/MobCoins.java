@@ -9,6 +9,7 @@ import me.swanis.mobcoins.listeners.MobCoinsListener;
 import me.swanis.mobcoins.listeners.PlayerListener;
 import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
+import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
@@ -16,6 +17,8 @@ import me.swanis.mobcoins.storage.impl.MySQLStorage;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
+import me.swanis.mobcoins.utils.PlayerProfile;
+import me.swanis.mobcoins.utils.YamlFile;
 import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,6 +26,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.yaml.snakeyaml.Yaml;
+
+import java.util.*;
 
 public class MobCoins extends JavaPlugin {
 
@@ -44,6 +50,8 @@ public class MobCoins extends JavaPlugin {
     private boolean wildStacker;
     private boolean forceDisable;
 
+    private ArrayList<PlayerProfile> MobCoinsTop = new ArrayList<>();
+
     @Override
     public void onEnable() {
         loadConfiguration();
@@ -60,6 +68,7 @@ public class MobCoins extends JavaPlugin {
             loadInventory();
             rewardManager.loadLastRewards();
             runTimer();
+            //runMobCoinsTopTimer();
 
             new MobCoinsAPI(this);
             new MetricsLite(this);
@@ -123,6 +132,7 @@ public class MobCoins extends JavaPlugin {
         commandManager.register(new MobCoinsAuthorCommand(this));
         commandManager.register(new MobCoinsReloadCommand(this));
         commandManager.register(new MobCoinsMigrateCommand(this));
+        commandManager.register(new MobCoinsTopCommand(this));
     }
 
     private void registerListeners() {
@@ -166,6 +176,38 @@ public class MobCoins extends JavaPlugin {
                 }
             }
         }.runTaskTimerAsynchronously(this, 0L, 20L);
+    }
+
+    private void runMobCoinsTopTimer() {
+
+        // Delay in minutes
+        long delay = Configuration.MOBCOIN_TOP_UPDATE_DELAY * 20 * 60;
+        ;
+        YamlFile targetFile = new YamlFile("profiles", this);
+        targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
+            MobCoinsTop.add(new PlayerProfile(UUID.fromString(player), targetFile.getConfig().getLong("Profile." + player + ".mobcoins")));
+        });
+
+        for (Profile profile : this.getProfileManager().getProfiles()) {
+            for (PlayerProfile existingProfile : MobCoinsTop) {
+                if (existingProfile.getUUID().equals(profile.getUUID())) {
+                    existingProfile.setTokens(profile.getMobCoins());
+                }
+            }
+        }
+        Arrays.sort(MobCoinsTop);
+
+
+
+        targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
+            Long value = targetFile.getConfig().getLong("Profile." + player + ".mobcoins");
+            System.out.println(value);
+        });
+        new BukkitRunnable() {
+            public void run() {
+
+            }
+        }.runTaskTimerAsynchronously(this, 0L, delay);
     }
 
     public void loadInventory() {
