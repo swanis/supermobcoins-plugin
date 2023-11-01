@@ -1,4 +1,4 @@
-package me.swanis.mobcoins.utils;
+package me.swanis.mobcoins.profile;
 
 import java.util.UUID;
 
