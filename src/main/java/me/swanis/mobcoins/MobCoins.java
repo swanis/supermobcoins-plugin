@@ -9,6 +9,7 @@ import me.swanis.mobcoins.listeners.MobCoinsListener;
 import me.swanis.mobcoins.listeners.PlayerListener;
 import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
+import me.swanis.mobcoins.profile.PlayerProfileList;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
@@ -17,11 +18,13 @@ import me.swanis.mobcoins.storage.impl.MySQLStorage;
 import me.swanis.mobcoins.storage.impl.YamlStorage;
 import me.swanis.mobcoins.utils.ItemBuilder;
 import me.swanis.mobcoins.utils.MetricsLite;
-import me.swanis.mobcoins.utils.PlayerProfile;
+import me.swanis.mobcoins.profile.PlayerProfile;
 import me.swanis.mobcoins.utils.YamlFile;
 import me.swanis.mobcoins.utils.command.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +54,7 @@ public class MobCoins extends JavaPlugin {
     private boolean wildStacker;
     private boolean forceDisable;
 
-    private ArrayList<PlayerProfile> MobCoinsTop = new ArrayList<>();
+    private PlayerProfileList MobCoinsTop = new PlayerProfileList(100);
     private String formatDate;
 
     @Override
@@ -121,7 +124,6 @@ public class MobCoins extends JavaPlugin {
 
     private void registerCommands() {
         commandManager.register(new MobCoinsCommand(this));
-
         //Subcommands
         commandManager.register(new MobCoinsWithdrawCommand(this));
         commandManager.register(new MobCoinsPayCommand(this));
@@ -181,32 +183,46 @@ public class MobCoins extends JavaPlugin {
     }
 
     private void runMobCoinsTopTimer() {
-
         // Delay in minutes
         long delay = Configuration.MOBCOIN_TOP_UPDATE_DELAY * 20 * 60;
 
+        // load previous top 100
+        YamlFile targetFile = new YamlFile("profiles", this);
+        FileConfiguration targetConfig = targetFile.getConfig();
+        ConfigurationSection configSection = targetConfig.getConfigurationSection("Profile");
+
+        if (configSection != null) {
+            configSection.getKeys(false).forEach(player -> {
+                long playerMobcoins = targetConfig.getLong("Profile." + player + ".mobcoins");
+                MobCoinsTop.add(new PlayerProfile(UUID.fromString(player), playerMobcoins));
+            });
+        }
+
         new BukkitRunnable() {
             public void run() {
-                YamlFile targetFile = new YamlFile("profiles", MobCoins.this);
-                targetFile.getConfig().getConfigurationSection("Profile").getKeys(false).forEach(player -> {
-                    MobCoinsTop.add(new PlayerProfile(UUID.fromString(player), targetFile.getConfig().getLong("Profile." + player + ".mobcoins")));
-                });
-
                 for (Profile profile : MobCoins.this.getProfileManager().getProfiles()) {
-                    for (PlayerProfile existingProfile : MobCoinsTop) {
-                        if (existingProfile.getUUID().equals(profile.getUUID())) {
-                            existingProfile.setTokens(profile.getMobCoins());
+                    boolean exists = false;
+                    for (PlayerProfile playerProfile : MobCoinsTop) {
+                        if (profile.getUUID().equals(playerProfile.getUUID())) {
+                            MobCoinsTop.updateprofile(playerProfile, profile.getMobCoins());
+                            exists = true;
                         }
+                    }
+                    if (!exists) {
+                        MobCoinsTop.add(new PlayerProfile(profile.getUUID(), profile.getMobCoins()));
                     }
                 }
 
-                MobCoinsTop.sort(Collections.reverseOrder());
+                // Re-sort the list (must be done after new entries has been added)
+                MobCoinsTop.update();
+
                 LocalDateTime time = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
                 formatDate = time.format(formatter);
             }
         }.runTaskTimerAsynchronously(this, 0L, delay);
     }
+
 
     public void loadInventory() {
         inventory = getServer().createInventory(null, (Configuration.GUI_ROWS * 9), Configuration.GUI_TITLE);
@@ -277,7 +293,7 @@ public class MobCoins extends JavaPlugin {
         this.loaded = loaded;
     }
 
-    public ArrayList<PlayerProfile> getMobCoinsTop() { return this.MobCoinsTop; }
+    public PlayerProfileList getMobCoinsTop() { return this.MobCoinsTop; }
 
     public String getDate() { return formatDate; }
 }
