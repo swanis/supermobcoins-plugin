@@ -42,6 +42,7 @@ public class Configuration {
     public static boolean STACKING_SUPPORT;
     public static List<String> DISABLED_WORLDS = new ArrayList<>();
     public static long MOBCOIN_TOP_UPDATE_DELAY;
+    public static int MOBCOINS_TOP_PER_PAGE;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -169,6 +170,7 @@ public class Configuration {
         STACKING_SUPPORT = instance.getConfig().getBoolean("stacking_support");
         instance.getConfig().getStringList("disabled_worlds").forEach(DISABLED_WORLDS::add);
         MOBCOIN_TOP_UPDATE_DELAY = instance.getConfig().getInt("mobcoin_top_update_delay");
+        MOBCOINS_TOP_PER_PAGE = instance.getConfig().getInt("MOBCOINS_TOP_PER_PAGE");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
