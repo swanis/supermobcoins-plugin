@@ -18,6 +18,11 @@ public class PlayerProfileList implements Iterable<PlayerProfile> {
      * @param profile a new player profile to add to the list
      */
     public void add(PlayerProfile profile) {
+        // If list is about to reach maxsize sort it first to make sure the one with the least coins is grabbed
+        if (profileList.size() + 1 > maxsize) {
+            profileList.sort(Collections.reverseOrder());
+        }
+
         if (profileList.size() > maxsize) {
             // Get the last index
             PlayerProfile oldprofile = profileList.get(profileList.size() - 1);
