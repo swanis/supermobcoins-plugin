@@ -31,6 +31,7 @@ public class CommandManager {
         if(!command.subCommand()) {
             commands.put(command.command().toLowerCase(), pluginCommand);
             instance.getCommand(command.command()).setExecutor(pluginCommand);
+            pluginCommand.setSubcommands(command.subCommands());
         } else {
             commands.put(command.baseCommand().toLowerCase() + "." + command.command().toLowerCase(), pluginCommand);
 

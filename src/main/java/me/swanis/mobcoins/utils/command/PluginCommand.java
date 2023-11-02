@@ -13,6 +13,7 @@ public abstract class PluginCommand implements CommandExecutor {
 
     private String command;
     private String permission;
+    private String[] subcommands;
 
     public PluginCommand(MobCoins instance) {
         this.instance = instance;
@@ -20,7 +21,7 @@ public abstract class PluginCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command cmd, String string, String[] args) {
-        if(args.length > 0) {
+        if (args.length > 0) {
             PluginCommand pluginCommand = instance.getCommandManager().getCommand(command + "." + args[0].toLowerCase());
 
             if(pluginCommand != null) {
@@ -51,5 +52,13 @@ public abstract class PluginCommand implements CommandExecutor {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public String[] getSubcommands() {
+        return subcommands;
+    }
+
+    public void setSubcommands(String[] subcommands) {
+        this.subcommands = subcommands;
     }
 }

@@ -8,14 +8,16 @@ import me.swanis.mobcoins.utils.TimeUtil;
 import me.swanis.mobcoins.utils.command.Command;
 import me.swanis.mobcoins.utils.command.PluginCommand;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class MobCoinsCommand extends PluginCommand {
+public class MobCoinsCommand extends PluginCommand implements TabCompleter {
 
     private MobCoins instance;
 
@@ -82,5 +84,17 @@ public class MobCoinsCommand extends PluginCommand {
         Inventory clone = instance.getServer().createInventory(null, inventory.getSize(), title);
         clone.setContents(inventory.getContents());
         return clone;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String label, String[] strings) {
+        List<String> subCommands = Arrays.asList(getSubcommands());
+
+        for (String s : subCommands) {
+            System.out.println(s);
+        }
+
+        //return subCommands;
+        return new ArrayList<>();
     }
 }
