@@ -4,6 +4,7 @@ import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.PlayerProfile;
 import me.swanis.mobcoins.profile.PlayerProfileList;
+import me.swanis.mobcoins.utils.FormatUtil;
 import me.swanis.mobcoins.utils.command.Command;
 import me.swanis.mobcoins.utils.command.PluginCommand;
 import org.bukkit.Bukkit;
@@ -61,7 +62,8 @@ public class MobCoinsTopCommand extends PluginCommand {
                     commandSender.sendMessage(s
                             .replace("%number%", String.valueOf(i + 1))
                             .replace("%players%", Objects.requireNonNull(Bukkit.getPlayer(profile.getUUID())).getName())
-                            .replace("%mobcoins%", String.valueOf(profile.getTokens())));
+                            .replace("%mobcoins%", String.valueOf(profile.getTokens()))
+                            .replace("%mobcoins_formatted%", FormatUtil.format(profile.getTokens())));
                 }
             } else {
                 commandSender.sendMessage(s
