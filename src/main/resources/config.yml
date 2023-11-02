@@ -121,6 +121,7 @@ MOBCOINS_HELP_LORE:
   - '&b/mobcoins withdraw <amount>'
   - '&b/mobcoins pay <player> <amount>'
   - '&b/mobcoins viewcoins <player>'
+  - '&b/mobcoins top <page>'
   - '&8&m---------------------------'
 MOBCOINS_HELP_ADMIN_LORE:
   - '&8&m---------------------------'
@@ -138,6 +139,7 @@ MOBCOINS_HELP_ADMIN_LORE:
   - '&b/mobcoins reload'
   - '&8&m---------------------------'
 MOBCOINS_TOP_PER_PAGE: 10
+# You can replace the %mobcoins% with %mobcoins_formatted% if you want, Ex) 100 000 000 = 100M
 MOBCOINS_TOP_MESSAGE:
   - '&8&m---------------------------'
   - '&3&lMobcoins top: &r&b%date%'
