@@ -41,6 +41,9 @@ public class Configuration {
     public static boolean CLOSE_GUI_ON_BUY;
     public static boolean STACKING_SUPPORT;
     public static List<String> DISABLED_WORLDS = new ArrayList<>();
+    public static int MOBCOINS_TOP_UPDATE_DELAY;
+    public static int MOBCOINS_TOP_PLAYERS_PER_PAGE;
+    public static int MOBCOINS_TOP_TOTAL_ENTRIES;
 
     public static String NO_PERMISSION_MESSAGE;
     public static String USAGE_MESSAGE;
@@ -72,6 +75,7 @@ public class Configuration {
     public static String CANNOT_PAY_YOURSELF_MESSAGE;
     public static List<String> MOBCOINS_HELP_LORE = new ArrayList<>();
     public static List<String> MOBCOINS_HELP_ADMIN_LORE = new ArrayList<>();
+    public static List<String> MOBCOINS_TOP_LORE = new ArrayList<>();
 
     public Configuration(MobCoins instance) {
         MYSQL_ENABLED = instance.getConfig().getBoolean("mysql.enabled");
@@ -166,6 +170,9 @@ public class Configuration {
         CLOSE_GUI_ON_BUY = instance.getConfig().getBoolean("close_gui_on_buy");
         STACKING_SUPPORT = instance.getConfig().getBoolean("stacking_support");
         instance.getConfig().getStringList("disabled_worlds").forEach(DISABLED_WORLDS::add);
+        MOBCOINS_TOP_UPDATE_DELAY = instance.getConfig().getInt("mobcoins_top_update_delay");
+        MOBCOINS_TOP_PLAYERS_PER_PAGE = instance.getConfig().getInt("mobcoins_top_players_per_page");
+        MOBCOINS_TOP_TOTAL_ENTRIES = instance.getConfig().getInt("mobcoins_top_total_entries");
 
         NO_PERMISSION_MESSAGE = StringUtil.color(instance.getConfig().getString("NO_PERMISSION_MESSAGE"));
         USAGE_MESSAGE = StringUtil.color(instance.getConfig().getString("USAGE_MESSAGE"));
@@ -199,6 +206,8 @@ public class Configuration {
         instance.getConfig().getStringList("MOBCOINS_HELP_LORE").forEach(string -> Configuration.MOBCOINS_HELP_LORE.add(StringUtil.color(string)));
         MOBCOINS_HELP_ADMIN_LORE.clear();
         instance.getConfig().getStringList("MOBCOINS_HELP_ADMIN_LORE").forEach(string -> Configuration.MOBCOINS_HELP_ADMIN_LORE.add(StringUtil.color(string)));
+        MOBCOINS_TOP_LORE.clear();
+        instance.getConfig().getStringList("MOBCOINS_TOP_LORE").forEach(string -> Configuration.MOBCOINS_TOP_LORE.add(StringUtil.color(string)));
     }
 
     private Material getMaterial(String materialName) {

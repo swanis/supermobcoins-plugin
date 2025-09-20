@@ -2,14 +2,13 @@ package me.swanis.mobcoins.profile;
 
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ProfileManager {
 
     private Map<UUID, Profile> profiles = new HashMap<>();
+    private PriorityQueue<Profile> topQueue = new PriorityQueue<>();
+    private ArrayList<Profile> topList = new ArrayList<>();
 
     public void load(Profile profile) {
         profiles.put(profile.getPlayer().getUniqueId(), profile);
@@ -29,5 +28,13 @@ public class ProfileManager {
 
     public Collection<Profile> getProfiles() {
         return profiles.values();
+    }
+
+    public PriorityQueue<Profile> getTopQueue() {
+        return topQueue;
+    }
+
+    public ArrayList<Profile> getTopList() {
+        return topList;
     }
 }

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class Profile {
+public class Profile implements Comparable<Profile> {
 
     private UUID uuid;
     private long mobCoins;
@@ -28,5 +28,14 @@ public class Profile {
 
     public void setMobCoins(long mobCoins) {
         this.mobCoins = mobCoins;
+    }
+
+    @Override
+    public int compareTo(Profile otherProfile) {
+        long diff = this.mobCoins - otherProfile.getMobCoins();
+
+        if (diff > 0) return 1;
+        else if (diff < 0) return -1;
+        else return 0;
     }
 }

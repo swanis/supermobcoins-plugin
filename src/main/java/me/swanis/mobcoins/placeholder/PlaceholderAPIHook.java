@@ -6,6 +6,8 @@ import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.utils.FormatUtil;
 import me.swanis.mobcoins.utils.TimeUtil;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
@@ -73,6 +75,34 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             }
 
             default:
+                if (params.startsWith("top_")) {
+                    String[] parts = params.split("_");
+
+                    if (parts.length != 3) {
+                        return null;
+                    }
+
+                    String numberString = parts[1];
+
+                    if (!StringUtils.isNumeric(numberString)) {
+                        return null;
+                    }
+
+                    int number = Integer.valueOf(numberString);
+
+                    if (number == 0 || number > instance.getProfileManager().getTopList().size()) {
+                        return "";
+                    }
+
+                    Profile profile = instance.getProfileManager().getTopList().get(number - 1);
+
+                    if (parts[2].equals("name")) {
+                        return Bukkit.getOfflinePlayer(profile.getUUID()).getName();
+                    } else if (parts[2].equals("mobcoins")) {
+                        return String.valueOf(profile.getMobCoins());
+                    }
+                }
+
                 return null;
         }
     }

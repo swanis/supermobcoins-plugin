@@ -9,6 +9,7 @@ import me.swanis.mobcoins.listeners.MobCoinsListener;
 import me.swanis.mobcoins.listeners.PlayerListener;
 import me.swanis.mobcoins.placeholder.HolographicDisplaysHook;
 import me.swanis.mobcoins.placeholder.PlaceholderAPIHook;
+import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.profile.ProfileManager;
 import me.swanis.mobcoins.reward.RewardManager;
 import me.swanis.mobcoins.storage.Storable;
@@ -23,6 +24,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.*;
 
 public class MobCoins extends JavaPlugin {
 
@@ -40,6 +43,7 @@ public class MobCoins extends JavaPlugin {
 
     private long normalTime;
     private long specialTime;
+    private long topUpdateTime;
     private boolean loaded;
     private boolean wildStacker;
     private boolean forceDisable;
@@ -58,6 +62,7 @@ public class MobCoins extends JavaPlugin {
 
             getServer().getOnlinePlayers().stream().map(player -> player.getUniqueId()).forEach(storage::loadProfile);
             loadInventory();
+            loadTop();
             rewardManager.loadLastRewards();
             runTimer();
 
@@ -123,6 +128,7 @@ public class MobCoins extends JavaPlugin {
         commandManager.register(new MobCoinsAuthorCommand(this));
         commandManager.register(new MobCoinsReloadCommand(this));
         commandManager.register(new MobCoinsMigrateCommand(this));
+        commandManager.register(new MobCoinsTopCommand(this));
     }
 
     private void registerListeners() {
@@ -143,12 +149,15 @@ public class MobCoins extends JavaPlugin {
     }
 
     private void runTimer() {
-        if(!loaded) {
+        if (!loaded) {
+            // If there were no stored rewards, load new ones
             normalTime = System.currentTimeMillis() + (Configuration.MOBCOIN_NORMAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
             specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
             rewardManager.refreshNormalRewards();
             rewardManager.refreshSpecialRewards();
         }
+
+        topUpdateTime = System.currentTimeMillis() + (Configuration.MOBCOINS_TOP_UPDATE_DELAY * 60) * 1000;
 
         new BukkitRunnable() {
             @Override
@@ -163,6 +172,11 @@ public class MobCoins extends JavaPlugin {
                     rewardManager.refreshSpecialRewards();
                     specialTime = System.currentTimeMillis() + (Configuration.MOBCOIN_SPECIAL_SHOP_UPDATE_HOURS * (60 * 60)) * 1000;
                     getServer().broadcastMessage(Configuration.MOBCOIN_SPECIAL_SHOP_UPDATED_MESSAGE);
+                }
+
+                if(topUpdateTime < System.currentTimeMillis()) {
+                    loadTop();
+                    topUpdateTime = System.currentTimeMillis() + (Configuration.MOBCOINS_TOP_UPDATE_DELAY * 60) * 1000;
                 }
             }
         }.runTaskTimerAsynchronously(this, 0L, 20L);
@@ -183,6 +197,35 @@ public class MobCoins extends JavaPlugin {
                     inventory.setItem(i, fillerItem);
             }
         }
+    }
+
+    public void loadTop() {
+        long before = System.currentTimeMillis();
+
+        profileManager.getTopList().clear();
+
+        getProfileManager().getProfiles().forEach(profile -> {
+            Profile copy = new Profile(profile.getUUID());
+            copy.setMobCoins(profile.getMobCoins());
+
+            profileManager.getTopQueue().add(copy);
+
+            if (profileManager.getTopQueue().size() > Configuration.MOBCOINS_TOP_TOTAL_ENTRIES) {
+                profileManager.getTopQueue().poll();
+            }
+        });
+
+        if (!storage.populateTopQueue()) {
+            Bukkit.getLogger().info("[SuperMobCoins] Failed to populate top list from storage");
+        }
+
+        while (!profileManager.getTopQueue().isEmpty()) {
+            profileManager.getTopList().add(profileManager.getTopQueue().poll());
+        }
+
+        Collections.reverse(profileManager.getTopList());
+
+        Bukkit.getLogger().info("[SuperMobCoins] Loaded MobCoins top in " + (System.currentTimeMillis() - before) + "ms");
     }
 
     public ItemStack getMobCoinItem() {
@@ -231,6 +274,10 @@ public class MobCoins extends JavaPlugin {
 
     public void setSpecialTime(long specialTime) {
         this.specialTime = specialTime;
+    }
+
+    public long getTopUpdateTime() {
+        return topUpdateTime;
     }
 
     public void setLoaded(boolean loaded) {

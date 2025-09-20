@@ -6,6 +6,7 @@ import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.storage.Storable;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -93,5 +94,37 @@ public class MySQLStorage implements Storable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean populateTopQueue() {
+        int limit = Configuration.MOBCOINS_TOP_TOTAL_ENTRIES + Bukkit.getOnlinePlayers().size();
+        String sql = "SELECT * FROM supermobcoins ORDER BY mobcoins DESC LIMIT " + limit;
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                UUID uuid = UUID.fromString(resultSet.getString("uuid"));
+
+                if (instance.getProfileManager().getProfile(uuid) != null) continue;
+
+                long mobCoins = resultSet.getLong("mobcoins");
+
+                Profile profile = new Profile(uuid);
+                profile.setMobCoins(mobCoins);
+
+                instance.getProfileManager().getTopQueue().add(profile);
+
+                if (instance.getProfileManager().getTopQueue().size() > Configuration.MOBCOINS_TOP_TOTAL_ENTRIES) {
+                    instance.getProfileManager().getTopQueue().poll();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

@@ -85,6 +85,9 @@ close_gui_on_buy: true
 stacking_support: false
 disabled_worlds:
   - "disabledworld"
+mobcoins_top_update_delay: 5
+mobcoins_top_players_per_page: 10
+mobcoins_top_total_entries: 100
 
 NO_PERMISSION_MESSAGE: "&cYou do not have permission to execute this command"
 USAGE_MESSAGE: "&cUsage: %usage%"
@@ -115,24 +118,35 @@ INVENTORY_GOT_FILLED_MESSAGE: "&eYour inventory got filled so you could only wit
 AMOUNT_INPUT_TOO_LONG: "&cThat amount input is too long"
 CANNOT_PAY_YOURSELF_MESSAGE: "&cYou cannot pay yourself"
 MOBCOINS_HELP_LORE:
-  - '&8&m---------------------------'
-  - '&3&l(!) Mobcoins Commands:'
-  - '&b/mobcoins withdraw <amount>'
-  - '&b/mobcoins pay <player> <amount>'
-  - '&b/mobcoins viewcoins <player>'
-  - '&8&m---------------------------'
+  - "&8&m---------------------------"
+  - "&3&l(!) MobCoins Commands:"
+  - "&b/mobcoins withdraw <amount>"
+  - "&b/mobcoins pay <player> <amount>"
+  - "&b/mobcoins viewcoins <player>"
+  - "&b/mobcoins top [page]"
+  - "&8&m---------------------------"
 MOBCOINS_HELP_ADMIN_LORE:
-  - '&8&m---------------------------'
-  - '&3&l(!) Mobcoins Commands:'
-  - '&b/mobcoins withdraw <amount>'
-  - '&b/mobcoins pay <player> <amount>'
-  - '&b/mobcoins viewcoins <player>'
-  - ''
-  - '&3&l(!) Admin Commands:'
-  - '&b/mobcoins give <player> <amount> [-s]'
-  - '&b/mobcoins take <player> <amount>'
-  - '&b/mobcoins set <player> <amount>'
-  - '&b/mobcoins giveitem <player> <amount>'
-  - '&b/mobcoins refresh <category>'
-  - '&b/mobcoins reload'
-  - '&8&m---------------------------'
+  - "&8&m---------------------------"
+  - "&3&l(!) MobCoins Commands:"
+  - "&b/mobcoins withdraw <amount>"
+  - "&b/mobcoins pay <player> <amount>"
+  - "&b/mobcoins viewcoins <player>"
+  - "&b/mobcoins top [page]"
+  - ""
+  - "&3&l(!) Admin Commands:"
+  - "&b/mobcoins give <player> <amount> [-s]"
+  - "&b/mobcoins take <player> <amount>"
+  - "&b/mobcoins set <player> <amount>"
+  - "&b/mobcoins giveitem <player> <amount>"
+  - "&b/mobcoins refresh <category>"
+  - "&b/mobcoins reload"
+  - "&8&m---------------------------"
+MOBCOINS_TOP_LORE:
+  - "&8&m---------------------------"
+  - "&3&l(!) MobCoins Top:"
+  - ""
+  - "&f&l%number%. &r&b%player%: &3%mobcoins%"
+  - ""
+  - "Page: %page%"
+  - "Updating in: %topupdatetime%"
+  - "&8&m---------------------------"

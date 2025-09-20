@@ -1,12 +1,14 @@
 package me.swanis.mobcoins.storage.impl;
 
+import me.swanis.mobcoins.Configuration;
 import me.swanis.mobcoins.MobCoins;
 import me.swanis.mobcoins.profile.Profile;
 import me.swanis.mobcoins.storage.Storable;
 import me.swanis.mobcoins.utils.YamlFile;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.UUID;
+import java.util.*;
 
 public class YamlStorage implements Storable {
 
@@ -67,5 +69,37 @@ public class YamlStorage implements Storable {
         config.set(prefix + ".mobcoins", mobCoins);
 
         file.save();
+    }
+
+    @Override
+    public boolean populateTopQueue() {
+        ConfigurationSection profileSection = config.getConfigurationSection("Profile");
+
+        if (profileSection == null) {
+            return true;
+        }
+
+        Set<String> uuids = profileSection.getKeys(false);
+        Iterator<String> it = uuids.iterator();
+
+        while (it.hasNext()) {
+            String uuidString = it.next();
+            UUID uuid = UUID.fromString(uuidString);
+
+            if (instance.getProfileManager().getProfile(uuid) != null) continue;
+
+            long mobCoins = config.getLong("Profile." + uuid + ".mobcoins");
+
+            Profile profile = new Profile(uuid);
+            profile.setMobCoins(mobCoins);
+
+            instance.getProfileManager().getTopQueue().add(profile);
+
+            if (instance.getProfileManager().getTopQueue().size() > Configuration.MOBCOINS_TOP_TOTAL_ENTRIES) {
+                instance.getProfileManager().getTopQueue().poll();
+            }
+        }
+
+        return true;
     }
 }

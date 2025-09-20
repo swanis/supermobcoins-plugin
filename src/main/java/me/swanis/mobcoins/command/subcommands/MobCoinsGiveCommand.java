@@ -43,7 +43,7 @@ public class MobCoinsGiveCommand extends PluginCommand {
             return;
         }
 
-        if(args[2].length() > 9) {
+        if (args[2].length() > 9) {
             commandSender.sendMessage(Configuration.AMOUNT_INPUT_TOO_LONG);
             return;
         }
